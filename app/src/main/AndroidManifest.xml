@@ -9,28 +9,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Noterr.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Calendar_view" />
+        <activity android:name=".Noterr.Calendar_view" />
+        <activity android:name=".Noterr.Dashboard"/>
 
         <activity
-            android:name=".Day_view"
+            android:name=".Noterr.Day_view"
             android:label="@string/title_activity_day_view"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Week_view"
+            android:name=".Noterr.Week_view"
             android:label="@string/title_activity_week_view"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Month_view"
+            android:name=".Noterr.Month_view"
             android:label="@string/title_activity_month_view"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Create_Event"></activity>
+        <activity android:name=".Noterr.Create_Event"></activity>
     </application>
 
 </manifest>

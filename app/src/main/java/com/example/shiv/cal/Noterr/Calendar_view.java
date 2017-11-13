@@ -1,4 +1,4 @@
-package com.example.shiv.cal;
+package com.example.shiv.cal.Noterr;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.Toast;
+import com.example.shiv.cal.R;
 
 /**
  * Created by Shiv on 2017-11-05.

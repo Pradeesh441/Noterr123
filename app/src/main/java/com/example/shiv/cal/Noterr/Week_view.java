@@ -1,4 +1,4 @@
-package com.example.shiv.cal;
+package com.example.shiv.cal.Noterr;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.example.shiv.cal.R;
 
 public class Week_view extends AppCompatActivity {
 

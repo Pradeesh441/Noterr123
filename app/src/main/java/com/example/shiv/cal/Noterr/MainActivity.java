@@ -1,8 +1,8 @@
 package com.example.shiv.cal.Noterr;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-
 import com.example.shiv.cal.R;
 
 import java.text.ParseException;
@@ -18,6 +18,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbh = new DatabaseHelper(this);
+        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+        startActivity(intent);
 
 
 
@@ -224,4 +226,6 @@ public class MainActivity extends Activity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return dateFormat.parse(input);
     }
+
+
 }
