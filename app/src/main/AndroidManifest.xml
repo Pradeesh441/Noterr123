@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.shiv.cal">
 
+    <permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.example.mapdemo.permission.MAPS_RECEIVE" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +17,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCUa9U7ZLDZuB_8hzz9Al-j27Vy5R-d6iA"/>
+
         <activity android:name=".Noterr.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

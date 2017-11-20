@@ -4,25 +4,104 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.shiv.cal.Create_Event">
+    tools:context="com.example.shiv.cal.Noterr.Create_Event">
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Event Activity"
-        android:textSize="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="211dp" />
+        android:layout_marginTop="11dp"
+        android:text="Create Event Activity"
+        android:textSize="40dp" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/textView3"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="40dp"
+        android:text="Set Date/Time" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/button2"
         android:layout_below="@+id/textView2"
-        android:layout_marginEnd="114dp"
-        android:layout_marginTop="37dp"
-        android:text="Button" />
+        android:layout_marginTop="38dp"
+        android:text="Name"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_marginEnd="13dp"
+        android:text="Type your name here"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button2"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_alignStart="@+id/textView6"
+        android:layout_marginStart="11dp"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/button2"
+        android:layout_alignStart="@+id/button2"
+        android:layout_below="@+id/button2"
+        android:layout_marginTop="25dp"
+        android:text="Set Location" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView4"
+        android:layout_below="@+id/button3"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="41dp"
+        android:text="Location Name" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button3"
+        android:layout_alignBottom="@+id/button3"
+        android:layout_alignStart="@+id/textView6"
+        android:text="Location Address" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/button3"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="47dp"
+        android:text="Save" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button4"
+        android:layout_alignBottom="@+id/button4"
+        android:layout_marginStart="21dp"
+        android:layout_toEndOf="@+id/textView5"
+        android:text="Cancel" />
 </RelativeLayout>

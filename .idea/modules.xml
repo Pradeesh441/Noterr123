@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Cal.iml" filepath="$PROJECT_DIR$/Cal.iml" />
+      <module fileurl="file://C:\Users\Shiv\AndroidStudioProjects\Noterr APP\Cal.iml" filepath="C:\Users\Shiv\AndroidStudioProjects\Noterr APP\Cal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Noterr APP.iml" filepath="$PROJECT_DIR$/Noterr APP.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

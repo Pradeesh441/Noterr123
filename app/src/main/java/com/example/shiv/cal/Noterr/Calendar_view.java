@@ -35,9 +35,16 @@ public class Calendar_view extends AppCompatActivity{
         cal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Toast.makeText(getApplicationContext(),""+ dayOfMonth+"/"+ month+"/"+year,Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(),""+ dayOfMonth+"/"+ month+"/"+year,Toast.LENGTH_SHORT).show();
+
+                String Date = String.valueOf(dayOfMonth);
+                String  Month = String.valueOf(month);
+                String Year = String.valueOf(year);
 
                 Intent i = new Intent(getApplicationContext(), Day_view.class);
+                i.putExtra("Day", Date);
+                i.putExtra("Month",Month);
+                i.putExtra("Year",Year);
                 startActivity(i);
 
 
@@ -54,7 +61,7 @@ public class Calendar_view extends AppCompatActivity{
     }
 
 
-    public boolean onOptionsItemSelected(MenuItem item) {
+   /* public boolean onOptionsItemSelected(MenuItem item) {
         int SelectedID = item.getItemId();
         switch(SelectedID) {
             case R.id.Day:
@@ -72,5 +79,5 @@ public class Calendar_view extends AppCompatActivity{
 
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

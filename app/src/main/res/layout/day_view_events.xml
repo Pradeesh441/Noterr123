@@ -12,7 +12,18 @@
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:text="EVENTS"
-        android:textSize="36dp"/>
+        android:textSize="36dp" />
+
+    <TextView
+        android:id="@+id/Datetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/section_label"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:textSize="20dp" />
 
 </RelativeLayout>
