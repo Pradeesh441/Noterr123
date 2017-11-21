@@ -1,5 +1,6 @@
 package com.example.shiv.cal.Noterr;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.shiv.cal.R;
 
@@ -32,6 +34,7 @@ public class Month_view extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    String day, month, year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +78,36 @@ public class Month_view extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        int SelectedID = item.getItemId();
+        String Date =getIntent().getStringExtra("Day");
+        String Month = getIntent().getStringExtra("Month");
+        String Year = getIntent().getStringExtra("Year");
+        switch(SelectedID) {
+            case R.id.Day:
+                Toast.makeText(getBaseContext(),"Day View",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), Day_view.class);
+                i.putExtra("Day", Date);
+                i.putExtra("Month",Month);
+                i.putExtra("Year",Year);
+                startActivity(i);
+                break;
+            case R.id.Week:
+                Toast.makeText(getBaseContext(),"Week View",Toast.LENGTH_SHORT).show();
+                Intent j = new Intent(getApplicationContext(), Week_view.class);
+                j.putExtra("Day", Date);
+                j.putExtra("Month",Month);
+                j.putExtra("Year",Year);
+                startActivity(j);
+                break;
+            case R.id.Month:
+                Toast.makeText(getBaseContext(),"Month View",Toast.LENGTH_SHORT).show();
+                Intent k = new Intent(getApplicationContext(), Month_view.class);
+                k.putExtra("Day", Date);
+                k.putExtra("Month",Month);
+                k.putExtra("Year",Year);
+                startActivity(k);
+                break;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.Month) {
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -98,15 +126,30 @@ public class Month_view extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+
+            day= getIntent().getStringExtra("Day");
+            month = getIntent().getStringExtra("Month");
+            year = getIntent().getStringExtra("Year");
+
+            Bundle bundle = new Bundle();
+            bundle.putString("Date", day);
+            bundle.putString("Month", month);
+            bundle.putString("Year", year);
+
+            Toast.makeText(getApplicationContext(), day+month+year, Toast.LENGTH_SHORT).show();
+
             switch (position) {
                 case 0:
                     Month_View_Events tab1 = new Month_View_Events();
+                    tab1.setArguments(bundle);
                     return tab1;
                 case 1:
                     Month_View_Notes tab2 = new Month_View_Notes();
+                    tab2.setArguments(bundle);
                     return tab2;
                 case 2:
                     Month_View_To_dos tab3 = new Month_View_To_dos();
+                    tab3.setArguments(bundle);
                     return tab3;
                 default:
                     return  null;

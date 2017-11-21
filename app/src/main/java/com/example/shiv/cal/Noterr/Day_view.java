@@ -76,11 +76,38 @@ public class Day_view extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        int SelectedID = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.Day) {
-            return true;
+        String Date =getIntent().getStringExtra("Day");
+        String Month = getIntent().getStringExtra("Month");
+        String Year = getIntent().getStringExtra("Year");
+        switch(SelectedID) {
+            case R.id.Day:
+                Toast.makeText(getBaseContext(),"Day View",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), Day_view.class);
+                i.putExtra("Day", Date);
+                i.putExtra("Month",Month);
+                i.putExtra("Year",Year);
+                startActivity(i);
+                break;
+            case R.id.Week:
+                Toast.makeText(getBaseContext(),"Week View",Toast.LENGTH_SHORT).show();
+
+                Intent j = new Intent(getApplicationContext(), Week_view.class);
+                j.putExtra("Day", Date);
+                j.putExtra("Month",Month);
+                j.putExtra("Year",Year);
+                startActivity(j);
+                break;
+            case R.id.Month:
+                Toast.makeText(getBaseContext(),"Month View",Toast.LENGTH_SHORT).show();
+                Intent k = new Intent(getApplicationContext(), Month_view.class);
+                k.putExtra("Day", Date);
+                k.putExtra("Month",Month);
+                k.putExtra("Year",Year);
+                startActivity(k);
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
