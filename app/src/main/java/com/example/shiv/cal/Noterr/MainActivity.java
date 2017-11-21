@@ -3,7 +3,6 @@ package com.example.shiv.cal.Noterr;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import com.example.shiv.cal.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
