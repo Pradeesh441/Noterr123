@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.shiv.cal.R;
 
 public class Week_view extends AppCompatActivity {
 

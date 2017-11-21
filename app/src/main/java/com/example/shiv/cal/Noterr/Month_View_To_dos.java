@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.shiv.cal.R;
 
 /**
  * Created by Shiv on 2017-11-08.

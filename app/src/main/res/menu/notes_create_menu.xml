@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--<item
+        android:enabled="true"
+        android:id="@+id/back"
+        android:icon="@android:drawable/arrow_up_float"
+        android:orderInCategory="0"
+        app:showAsAction="always"
+        android:title="back" />-->
+    <item
+        android:enabled="true"
+        android:id="@+id/save"
+        android:icon="@android:drawable/ic_menu_save"
+        android:orderInCategory="0"
+        app:showAsAction="always"
+        android:title="save" />
+    <item
+        android:enabled="true"
+        android:id="@+id/prev_attachments"
+        android:icon="@android:drawable/ic_menu_gallery"
+        android:orderInCategory="0"
+        app:showAsAction="always"
+        android:title="previous attachments" />
+    <item
+        android:enabled="true"
+        android:id="@+id/attach"
+        android:icon="@drawable/attach"
+        android:orderInCategory="0"
+        app:showAsAction="always"
+        android:title="attach" >
+        <menu>
+            <item
+                android:enabled="true"
+                android:id="@+id/camera"
+                app:showAsAction="always"
+                android:title="Camera" />
+            <item
+                android:enabled="true"
+                android:id="@+id/picture"
+                app:showAsAction="always"
+                android:title="Image" />
+            <item
+                android:enabled="true"
+                android:id="@+id/audio"
+                app:showAsAction="always"
+                android:title="Audio" />
+
+        </menu>>
+    </item>>
+    <item
+        android:enabled="true"
+        android:id="@+id/delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:orderInCategory="0"
+        app:showAsAction="always"
+        android:title="delete" />
+
+
+
+</menu>

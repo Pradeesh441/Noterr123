@@ -15,11 +15,11 @@ public class Notes_content {
         Seq_no = seq_no;
     }
 
-    public Integer getID() {
+    public Long getID() {
         return ID;
     }
 
-    public void setID(Integer ID) {
+    public void setID(Long ID) {
         this.ID = ID;
     }
 
@@ -39,7 +39,7 @@ public class Notes_content {
         Content = content;
     }
 
-    private Integer ID;
+    private Long ID;
     private String Cont_type;
     private String Content;
 }

@@ -7,18 +7,18 @@ import java.util.Date;
  */
 
 public class Notes_main {
-    private Integer ID;
+    private Long ID;
 
 
 
     private String Desc;
     private Date Date_crtd;
 
-    public Integer getID() {
+    public Long getID() {
         return ID;
     }
 
-    public void setID(Integer ID) {
+    public void setID(Long ID) {
         this.ID = ID;
     }
 
