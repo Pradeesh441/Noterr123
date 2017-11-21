@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.shiv.cal.Month_view">
+    tools:context="com.example.shiv.cal.Noterr.Month_view">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

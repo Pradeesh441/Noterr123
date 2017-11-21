@@ -14,12 +14,11 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by apple on 04/11/17.
+ * Created by apple on 13/11/17.
  */
 
-
-
 public class DatabaseHelper extends SQLiteOpenHelper {
+
     public static final String DATABASE_NAME = "Noterr.db";
     public static final String TABLE_NAME1 = "Todo_main";
     public static final String TABLE_NAME2 = "Todo_content";
@@ -69,8 +68,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        SQLiteDatabase db = this.getWritableDatabase();
-        onUpgrade(db,1,1);
+        // SQLiteDatabase db = this.getWritableDatabase();
+        // onUpgrade(db,1,1);
 
     }
 
@@ -85,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_NAME4 +"("+COL_41+" INTEGER PRIMARY KEY AUTOINCREMENT," + COL_42 +" TEXT NOT NULL,"+COL_43+" DATETIME NOT NULL," +
                 COL_44+" TEXT,"+COL_45+" TEXT NOT NULL);");
         db.execSQL("create table " + TABLE_NAME5 +"("+COL_51+" INTEGER PRIMARY KEY AUTOINCREMENT,"+COL_52+" INTEGER NOT NULL,"+ COL_53+" TEXT NOT NULL,"
-               +COL_54+" TEXT NOT NULL,"+"FOREIGN KEY ("+COL_52+") REFERENCES "+TABLE_NAME4+"("+COL_41+"));");
+                +COL_54+" TEXT NOT NULL,"+"FOREIGN KEY ("+COL_52+") REFERENCES "+TABLE_NAME4+"("+COL_41+"));");
         db.execSQL("create table " + TABLE_NAME6 +"("+COL_61+" INTEGER PRIMARY KEY AUTOINCREMENT,"+COL_62+" INTEGER NOT NULL,"+
                 COL_63 + " TEXT NOT NULL," + COL_64+" DATETIME NOT NULL,"+COL_65+" TEXT,"+COL_66+" TEXT,"+COL_67+" DATETIME);");
         db.execSQL("create table " + TABLE_NAME7 +"("+COL_71+" INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -106,11 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME7);
 
         onCreate(db);
-
     }
-
-
-
     //********** Retrieval of records **********
 
     public ArrayList<Todo_main> RetrieveTodo_main()
@@ -230,6 +225,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    ////
+    /*public ArrayList<Notes_main> dummy(long id) // Retrieving all the notes
+    {
+        ArrayList<Notes_main> nts_mn = new ArrayList<Notes_main>();
+
+        try{
+
+            database = this.getReadableDatabase();
+            String retrieveQuery = "SELECT * FROM " + TABLE_NAME4 + " WHERE "+ COL_41 + "=" + id;
+            Cursor cur = database.rawQuery(retrieveQuery, null);
+            if(cur.moveToFirst())
+            {
+                do{
+                    Notes_main nm = new Notes_main();
+                    nm.setID(cur.getInt(cur.getColumnIndex(COL_41)));
+                    nm.setDesc(cur.getString(cur.getColumnIndex(COL_42)));
+                    nm.setDate_crtd(getDateTime(cur.getString(cur.getColumnIndex(COL_43))));
+                    nm.setTag(cur.getString(cur.getColumnIndex(COL_44)));
+                    nm.setBg_color(cur.getString(cur.getColumnIndex(COL_45)));
+                    nts_mn.add(nm);
+                }while (cur.moveToNext());
+            }
+        }catch(Exception ex)
+        {
+            Log.d("Exception",ex.getMessage());
+        }
+
+        return nts_mn;
+    }*/
+    ////
+
+
+
+
+
 
     public ArrayList<Notes_main> RetrieveNotes_main() // Retrieving all the notes
     {
@@ -244,7 +274,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             {
                 do{
                     Notes_main nm = new Notes_main();
-                    nm.setID(cur.getInt(cur.getColumnIndex(COL_41)));
+                    //nm.setID(cur.getInt(cur.getColumnIndex(COL_41)));
+                    nm.setID(cur.getLong(cur.getColumnIndex(COL_41)));
                     nm.setDesc(cur.getString(cur.getColumnIndex(COL_42)));
                     nm.setDate_crtd(getDateTime(cur.getString(cur.getColumnIndex(COL_43))));
                     nm.setTag(cur.getString(cur.getColumnIndex(COL_44)));
@@ -273,7 +304,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             {
                 do{
                     Notes_main nm = new Notes_main();
-                    nm.setID(cur.getInt(cur.getColumnIndex(COL_41)));
+                    //nm.setID(cur.getInt(cur.getColumnIndex(COL_41)));
+                    nm.setID(cur.getLong(cur.getColumnIndex(COL_41)));
                     nm.setDesc(cur.getString(cur.getColumnIndex(COL_42)));
                     nm.setDate_crtd(getDateTime(cur.getString(cur.getColumnIndex(COL_43))));
                     nm.setTag(cur.getString(cur.getColumnIndex(COL_44)));
@@ -305,7 +337,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             {
                 do{
                     Notes_main nm = new Notes_main();
-                    nm.setID(cur.getInt(cur.getColumnIndex(COL_41)));
+                    //nm.setID(cur.getInt(cur.getColumnIndex(COL_41)));
+                    nm.setID(cur.getLong(cur.getColumnIndex(COL_41)));
                     nm.setDesc(cur.getString(cur.getColumnIndex(COL_42)));
                     nm.setDate_crtd(getDateTime(cur.getString(cur.getColumnIndex(COL_43))));
                     nm.setTag(cur.getString(cur.getColumnIndex(COL_44)));
@@ -334,7 +367,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do{
                 Notes_content nc = new Notes_content();
                 nc.setSeq_no(cur.getInt(cur.getColumnIndex(COL_51)));
-                nc.setID(cur.getInt(cur.getColumnIndex(COL_52)));
+                //nc.setID(cur.getInt(cur.getColumnIndex(COL_52)));
+                nc.setID(cur.getLong(cur.getColumnIndex(COL_52)));
                 nc.setCont_type(cur.getString(cur.getColumnIndex(COL_53)));
                 nc.setContent(cur.getString(cur.getColumnIndex(COL_54)));
                 nts_cnt.add(nc);
@@ -579,7 +613,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //seq no and content is passed as input
     public long updateNotes_content(Notes_content input) // Update only for type = text not for media content- media contents
-                                                           // can only be created or deleted.
+    // can only be created or deleted.
     {
         database = this.getWritableDatabase();
         ContentValues data = new ContentValues();
@@ -653,11 +687,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return true;
     }
+    ////
+    public boolean dummy_delete_notes()
+    {
+        database = this.getWritableDatabase();
+        database.delete(TABLE_NAME4,"1",null);
+        database.delete(TABLE_NAME5,"1",null);
+
+        return  true;
+    }
+    ////
+
 
 
 // ********** raw Query **********
 
-    public Cursor rawQuery(String query, boolean writable)
+    public Cursor rawQuery(String query,boolean writable)
     {
         if (writable) {
 
@@ -677,19 +722,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // ********** Date logic **********
 
-    private Date getDateTime(String input) throws ParseException {
+    public Date getDateTime(String input) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return dateFormat.parse(input);
     }
-    private String getDateTime(Date input)  {
+    public String getDateTime(Date input)  {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return dateFormat.format(input);
     }
 
-    private String getCurrentdatetime()  {
+    public String getCurrentdatetime()  {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date dt = new Date();
         return dateFormat.format(dt);
     }
+
+
+
 
 }
