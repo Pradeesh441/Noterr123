@@ -16,6 +16,7 @@ import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -40,12 +42,11 @@ import java.util.List;
 
 public class CreateNotes extends AppCompatActivity {
 
-    //private EditText Title;
+
     private EditText Content;
     public MenuItem Attach;
 
     private String Note_File;
-    //private Note_elements loaded_notes;
     private Notes_cont_stored cont_obtned;
     public String notes_title;
     public String notes_tag;
@@ -75,61 +76,66 @@ public class CreateNotes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_notes);
 
-        /////
         check_permission = ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        /*if(check_permission != PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},MY_PERMISSION_TO_READ);
-        }else
-        {
-            attachAudio();
-        }*/
-        /////
+
         attachmentlist = (ListView) findViewById(R.id.attachmentslist);
 
-
-
-
-         // to go to Notes home screen
+         // to go back to  Notes home screen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dbh = new DatabaseHelper(this);
 
-        //Title = (EditText) findViewById(R.id.title);
-        Content = (EditText) findViewById(R.id.content);
 
+        Content = (EditText) findViewById(R.id.content); // Initializing the notes body field
+
+         //get the values passed from the Notes home screen
         Intent createnotes = getIntent();
         notes_title = createnotes.getStringExtra("title");
         notes_tag = createnotes.getStringExtra("tag");
         notes_bg_color = createnotes.getStringExtra("color");
         id_notes = createnotes.getLongExtra("ID",0);
-        //Note_File = getIntent().getStringExtra("NOTE FILE");
-        Note_File = createnotes.getStringExtra("NOTE FILE");
 
+        Note_File = createnotes.getStringExtra("NOTE FILE"); // file name of the already existing note
+
+
+        //Checking whether to open as a new note for creation or already existing note
         if(Note_File != null && !Note_File.isEmpty())
         {
-            //loaded_notes = NotesManager.getNoteByName(this,Note_File);
+
             cont_obtned = obtainSelectedNote(this,Note_File);
             if (cont_obtned != null)
             {
-                //Title.setText(loaded_notes.getTitle());
+
                 Content.setText(cont_obtned.getContent());
             }
 
         }
 
-        //Toast.makeText(this,"Title"+notes_title,Toast.LENGTH_SHORT).show();
-        //Toast.makeText(this,"Tag"+notes_tag,Toast.LENGTH_SHORT).show();
-        Toast.makeText(this,"Bg color"+notes_bg_color,Toast.LENGTH_SHORT).show();
-        if (notes_bg_color.equalsIgnoreCase("Yellow"))
-            Content.setBackgroundColor(Color.YELLOW);
-        else if (notes_bg_color.equalsIgnoreCase("Blue"))
-            Content.setBackgroundColor(Color.BLUE);
-        else if (notes_bg_color.equalsIgnoreCase("Green"))
-            Content.setBackgroundColor(Color.GREEN);
+
+        switch(notes_bg_color)
+        {
+            case "Yellow":
+                Content.setBackgroundColor(ContextCompat.getColor(this,R.color.Yellow));
+                break;
+            case "Blue":
+                Content.setBackgroundColor(ContextCompat.getColor(this,R.color.Blue));
+                break;
+            case "Green":
+                Content.setBackgroundColor(ContextCompat.getColor(this,R.color.Green));
+                break;
+            case "Creamy":
+                Content.setBackgroundColor(ContextCompat.getColor(this,R.color.Creamy));
+                break;
+            case "Celestial silver":
+                Content.setBackgroundColor(ContextCompat.getColor(this,R.color.Celestial_silver));
+                break;
+        }
+
 
     }
-/////
+
+
+    //checking permission to open the content from the internal storage of the device
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == MY_PERMISSION_TO_READ)
@@ -150,27 +156,31 @@ public class CreateNotes extends AppCompatActivity {
                 }
             }
     }
-    //////
 
+    //populate the menu items
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.notes_create_menu,menu);
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-         ///trace
 
-        //changed
-        if(item.getItemId() == R.id.save)
-            saveNote();
+
+        if(item.getItemId() == R.id.save) {
+            if(Content.getText().toString().isEmpty())  // attempting to save without adding any contents will throw a message prompting to enter content
+                Toast.makeText(this, "Please enter some content", Toast.LENGTH_SHORT).show();
+            else
+                saveNote();
+        }
         else if(item.getItemId() == R.id.delete)
-            delete_Note();
-        else if(item.getItemId() == R.id.picture)
-            //attachGalleryimage();
+            delete_Note(); //to delete the note
+        else if(item.getItemId() == R.id.picture) // to attach an image from gallery
+
         {
-            if(check_permission != PackageManager.PERMISSION_GRANTED)
+            if(check_permission != PackageManager.PERMISSION_GRANTED) //check whether app has permission to open the gallery
             {
                 item_selected = gallery;
                 ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},MY_PERMISSION_TO_READ);
@@ -179,10 +189,8 @@ public class CreateNotes extends AppCompatActivity {
                 attachGalleryimage();
             }
         }
-        else if(item.getItemId() == R.id.audio)
+        else if(item.getItemId() == R.id.audio) // to attach audio file
         {
-            //Toast.makeText(this,"Attach an audio",Toast.LENGTH_SHORT).show();
-            //attachAudio();
             if(check_permission != PackageManager.PERMISSION_GRANTED)
             {
                 item_selected = audio;
@@ -193,21 +201,18 @@ public class CreateNotes extends AppCompatActivity {
             }
         }
 
-        else if(item.getItemId() == R.id.prev_attachments) {
-           // Toast.makeText(this, "Attach an location", Toast.LENGTH_SHORT).show();
-            //if(id_notes != 0)
-            //obtainAttachments(id_notes);
+        else if(item.getItemId() == R.id.prev_attachments)  // to open previous attachments to the notes
+        {
+
             if(id_notes != 0)
             {
                 Intent noteattach = new Intent(getApplicationContext(),Notes_Attachments.class);
                 noteattach.putExtra("ID",id_notes);
                 startActivity(noteattach);
             }
-
-
         }
-        else if(item.getItemId() == R.id.camera)
-            //attachCameraimage();
+        else if(item.getItemId() == R.id.camera) // to open camera to take a snap and attach to the notes
+
         {
             if(check_permission != PackageManager.PERMISSION_GRANTED)
             {
@@ -219,65 +224,48 @@ public class CreateNotes extends AppCompatActivity {
             }
 
         }
-        else if (item.getItemId() == android.R.id.home)
+        else if (item.getItemId() == R.id.share) // to share the notes through other apps
+            sharenotes(CreateNotes.this,Note_File);
+        else if (item.getItemId() == android.R.id.home) // to get back to the notes home page
             finish();
-
-
-
 
         return true;
     }
 
-    private void attachCameraimage() {
-        /*Intent camera_intnt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Uri cameraImageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"Noterr_"+
-                                       String.valueOf(System.currentTimeMillis())+".png"));
-        String camera_imageLoc = cameraImageUri.getPath();
-        Toast.makeText(this,"Image loc:"+camera_imageLoc,Toast.LENGTH_SHORT).show();
-        //camera_intnt.putExtra(MediaStore.EXTRA_OUTPUT,cameraImageUri);
-        startActivityForResult(camera_intnt,2);*/
+    private void attachCameraimage() // to open the camera,take a snap and attach
+    {
 
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE,"Camera Image location");
         cameraimgUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
-        ////////
+
         Intent camera_intnt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //camera_intnt.putExtra(MediaStore.EXTRA_OUTPUT,cameraimgUri);
-        //camera_file = new File(getApplicationContext().getExternalCacheDir(),String.valueOf(dbh.getCurrentdatetime()) + ".jpg");
-        //cameraimgUri = Uri.fromFile(camera_file);
+
         camera_intnt.putExtra(MediaStore.EXTRA_OUTPUT,cameraimgUri);
         startActivityForResult(camera_intnt,camera);
-        //Toast.makeText(this,"Temporarily unavailable",Toast.LENGTH_SHORT).show();
-        /////
 
     }
 
-    private void attachGalleryimage() {
+    private void attachGalleryimage() //to open gallery and pick an image to attach
+    {
         Intent img_intnt = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(img_intnt,gallery);
 
     }
-    private void attachAudio()
+    private void attachAudio() // to open audio gallery and pick an audio to attach
     {
-        //checkPermission();
+
         Intent audio_intnt = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(audio_intnt,audio);
 
     }
 
-    /*private void checkPermission() {
-        int check_permission = ContextCompat.checkSelfPermission(getCallingActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-        if(check_permission != PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(getCallingActivity(),new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, SyncStateContract.Constants.WRITE_EXTERNAL_STORAGE);
-        }
-    }*/
-
+    //open the respective internal device feature, to attach the media, based on the call from above
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 0 && resultCode == RESULT_OK && data != null)
+        if(requestCode == gallery && resultCode == RESULT_OK && data != null) //to open image gallery
         {
             Uri imageSelected = data.getData();
             String[] img_filePathcol = {MediaStore.Images.Media.DATA};
@@ -285,20 +273,15 @@ public class CreateNotes extends AppCompatActivity {
             cur.moveToFirst();
             int colIndex = cur.getColumnIndex(img_filePathcol[0]);
             String picturePath = cur.getString(colIndex);
-            Toast.makeText(this,"Path: "+picturePath,Toast.LENGTH_SHORT).show();
             cur.close();
 
             attach_file_ary[attach_file_cntr] = picturePath;
             attach_file_cntr = attach_file_cntr + 1;
             attach_ftype_ary[attach_ftype_cntr] = "Image";
             attach_ftype_cntr = attach_ftype_cntr + 1;
-
-            //storeAttachments("Image",picturePath);
-
         }
-        //Not Completed ********
-        //if(requestCode == 1 && resultCode == RESULT_OK && data != null)
-        if(requestCode == 1 )
+
+        if(requestCode == audio && resultCode == RESULT_OK && data != null) // to open audio gallery
         {
 
             Uri audioSelected = data.getData();
@@ -307,95 +290,63 @@ public class CreateNotes extends AppCompatActivity {
             cur.moveToFirst();
             int colIndex = cur.getColumnIndex(audio_filePathcol[0]);
             String audioPath = cur.getString(colIndex);
-            Toast.makeText(this,"Path: "+audioPath,Toast.LENGTH_SHORT).show();
             cur.close();
             attach_file_ary[attach_file_cntr] = audioPath;
             attach_file_cntr = attach_file_cntr + 1;
             attach_ftype_ary[attach_ftype_cntr] = "Audio";
             attach_ftype_cntr = attach_ftype_cntr + 1;
-            //storeAttachments("Audio",audioPath);
 
         }
-        //Not Completed ********
-        //if(requestCode == 2 && resultCode == RESULT_OK && data != null)
-        if(requestCode == 2 )
+
+        if(requestCode == camera && resultCode == RESULT_OK && data != null) // to open camera
         {
-            //Uri imageSelected = data.getData();
+
             String[] img_filePathcol = {MediaStore.Images.Media.DATA};
-
-            //Cursor cur = getContentResolver().query(imageSelected,img_filePathcol,null,null,null);
-
             Cursor cur = getContentResolver().query(cameraimgUri,img_filePathcol,null,null,null);
             int colIndex = cur.getColumnIndex(MediaStore.Images.Media.DATA);
             cur.moveToLast();
             String picturePath = cur.getString(colIndex);
-            Toast.makeText(this,"Path: "+picturePath,Toast.LENGTH_SHORT).show();
             cur.close();
             attach_file_ary[attach_file_cntr] = picturePath;
             attach_file_cntr = attach_file_cntr + 1;
             attach_ftype_ary[attach_ftype_cntr] = "Image";
             attach_ftype_cntr = attach_ftype_cntr + 1;
-
-            //storeAttachments("Image",picturePath);
-
         }
     }
 
 
-
+    //Saving the notes on click of a save button
     private void saveNote()
     {
         String save_success;
         String noteFileName = null;
-        //Note_elements note_elm;
+
         Notes_cont_stored notes_cont_stored;
 
-        /*if(Title.getText().toString().trim().isEmpty() || Content.getText().toString().trim().isEmpty())
-        {
-            Toast.makeText(this,"Cannot save! Title or content is empty.",Toast.LENGTH_SHORT).show();
-            return;
-        }*/
+        //new note
         if(cont_obtned == null) {
-            //note_elm = new Note_elements(System.currentTimeMillis(), Title.getText().toString(), Content.getText().toString());
+
             notes_cont_stored = new Notes_cont_stored(Content.getText().toString());
 
-
         }
-        else
+        else  //existing note
         {
-            //note_elm = new Note_elements(loaded_notes.getDatetime(), Title.getText().toString(), Content.getText().toString());
+
             notes_cont_stored = new Notes_cont_stored(Content.getText().toString());
             noteFileName = Note_File;
 
         }
-
-        //String result[] = NotesManager.save(this,note_elm);
-        //String result[] = NotesManager.save(this,notes_cont_stored,noteFileName);
         String result[] = save(this,notes_cont_stored,noteFileName);
 
-
-        /*if(NotesManager.save(this,note_elm))
+        //populate appropriate message telling whether it was a save or update
+        if (result[0] == "S") //save
         {
-            //changed message in toast
-            Toast.makeText(this,Title.getText()+ " notes saved!",Toast.LENGTH_SHORT).show();
-            //file_name = note_elm.getNotes_file_saved();
-            //Toast.makeText(this, " File " + file_name,Toast.LENGTH_SHORT).show();
-            saveNotestoDB();
 
-        }
-        else
-        {
-            //chnaged message in toast
-            Toast.makeText(this,"Sorry,notes was not saved. Free up some space!",Toast.LENGTH_SHORT).show();
-        }*/
-
-        if (result[0] == "S")
-        {
-            //Toast.makeText(this,Title.getText()+ " notes saved!",Toast.LENGTH_SHORT).show();
             Toast.makeText(this,notes_title+ " notes saved!",Toast.LENGTH_SHORT).show();
             saveNotestoDB(result[1]);
 
-        } else if (result[0] == "U") {
+        } else if (result[0] == "U")  //update
+        {
             Toast.makeText(this, "Notes updated !", Toast.LENGTH_SHORT).show();
 
             Notes_content insertRecordContent = new Notes_content();
@@ -412,7 +363,7 @@ public class CreateNotes extends AppCompatActivity {
 
             }
             if (content_id != 0)
-                Toast.makeText(this, "Sorry,notes was updated!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Notes was updated!", Toast.LENGTH_SHORT).show();
 
 
         } else
@@ -420,45 +371,53 @@ public class CreateNotes extends AppCompatActivity {
             Toast.makeText(this, "Sorry,notes was not saved!", Toast.LENGTH_SHORT).show();
 
         }
-
-
-
         finish();// go back to the last activity
 
     }
+
+
+    //function to delete notes from the internal storage of the device
     private void delete_Note() {
-              /////trace
+
 
         Notes_main notes_main = new Notes_main();
-        if(cont_obtned == null)
+        if(cont_obtned == null) // if its creating a new note phase and trying to delete before saving, will simply go back to the noteshome page
             finish();
-        else {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this).setTitle("Delete Notes")
-                    .setMessage("Do you really want to delete '"+notes_title+"' ?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        else
+            {
+                //Alert to confirm the deletion
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("Delete Notes");
+            dialog.setMessage("Do you really want to delete '"+notes_title+"' ?");
+            dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
-                            //NotesManager.deleteNote(getApplicationContext(), Note_File);
-                            deleteNote(getApplicationContext(), Note_File);
+
+                            deleteNote(getApplicationContext(), Note_File); //passing the file name in the internal storage to be deleted
                             Toast.makeText(getApplicationContext(),"Notes '" +notes_title+"' deleted",Toast.LENGTH_SHORT).show();
                             finish();
 
                         }
-                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    });
+            dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             return;
                         }
                     }).setCancelable(false);
-            dialog.show();
+            AlertDialog dialog1 = dialog.create();
+            dialog1.show();
 
-            /*notes_main.setID(id);
+            Button positivebutton = dialog1.getButton(DialogInterface.BUTTON_POSITIVE); //color change for button for consistency
+            positivebutton.setTextColor(ContextCompat.getColor(this,R.color.Theme_blue));
 
-            dbh.deleteNotes_main(notes_main);*/
+            Button negativebutton = dialog1.getButton(DialogInterface.BUTTON_NEGATIVE);
+            negativebutton.setTextColor(ContextCompat.getColor(this,R.color.Theme_blue));
 
         }
     }
+    //storing the details of the notes to database
     private void saveNotestoDB(String file)
     {
         long id;
@@ -469,8 +428,7 @@ public class CreateNotes extends AppCompatActivity {
             return;
 
         }
-
-
+        //passing the values to the database query through model class
         Notes_main insertRecordMain = new Notes_main();
         insertRecordMain.setDesc(notes_title);
         insertRecordMain.setTag(notes_tag);
@@ -478,17 +436,7 @@ public class CreateNotes extends AppCompatActivity {
 
         id = dbh.createNotes_main(insertRecordMain);
 
-        //int notes_id = (int) id;
-        long notes_id = id;
-
-        /*ArrayList<Notes_main> nts_mn = new ArrayList<Notes_main>();
-        nts_mn = dbh.dummy(id);
-
-        Toast.makeText(this,"Desc"+nts_mn.get(0).getDesc(),Toast.LENGTH_SHORT).show();*/
-
-
-        //ArrayList<Notes_main> output3 = dbh.RetrieveNotes_main();
-
+        long notes_id = id; //id that has been stored in notes_main database
 
         Notes_content insertRecordContent = new Notes_content();
         insertRecordContent.setID(notes_id);
@@ -497,14 +445,14 @@ public class CreateNotes extends AppCompatActivity {
 
         long content_id = dbh.createNotes_content(insertRecordContent);
 
-        if(content_id != 0)
+        //Indicating success or failure of the insertion into database activity
+        if(content_id == 0)
         {
-            Toast.makeText(this,"File "+file+" saved successfully",Toast.LENGTH_SHORT).show();
-            //Toast.makeText(this,"Content id "+content_id+"",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Sorry Note was not saved successfully",Toast.LENGTH_SHORT).show();
+            return;
 
         }
-        else
-            Toast.makeText(this,"Sorry Note "+file+" not successfull",Toast.LENGTH_SHORT).show();
+
 
         int ary_length = attach_file_cntr - 1;
 
@@ -515,34 +463,11 @@ public class CreateNotes extends AppCompatActivity {
             insertRecordContent.setContent(attach_file_ary[i]);
 
             content_id = dbh.createNotes_content(insertRecordContent);
-
         }
 
-
-
-
-        //ArrayList<Notes_content> output4 = dbh.RetrieveNotes_content(insertRecordContent);
     }
-    /*public void storeAttachments(String type, String file)
-    {
-        Notes_content insertRecordContent = new Notes_content();
-        insertRecordContent.setID(id);
-        insertRecordContent.setCont_type(type);
-        insertRecordContent.setContent(file);
 
-        long content_id = dbh.createNotes_content(insertRecordContent);
-
-        if(content_id != 0)
-        {
-            Toast.makeText(this,"Attachment successfull",Toast.LENGTH_SHORT).show();
-            //Toast.makeText(this,"Content id "+content_id+"",Toast.LENGTH_SHORT).show();
-        }
-        else
-            Toast.makeText(this,"Sorry, Attachment not successfull.Try again!",Toast.LENGTH_SHORT).show();
-
-
-
-    }*/
+    //Saving the notes as a text file in the internal storage of the device
     public static String[] save(Context context, Notes_cont_stored note,String existing_file)
     {
         String success = "S";
@@ -553,7 +478,7 @@ public class CreateNotes extends AppCompatActivity {
         String file_name;
 
 
-        //String file_name = String.valueOf(note.getDatetime()) +F_Exn;
+
         dbh = new DatabaseHelper(context);
         if (existing_file == null) {
             file_name = dbh.getCurrentdatetime() + F_Exn;
@@ -565,6 +490,7 @@ public class CreateNotes extends AppCompatActivity {
         }
 
 
+        //file io operations
         FileOutputStream file_out;
         ObjectOutputStream obj_out;
 
@@ -574,30 +500,30 @@ public class CreateNotes extends AppCompatActivity {
             obj_out.writeObject(note);
             obj_out.close();
             file_out.close();
-            //note.setNotes_file_saved(file_name);
+
 
 
         }catch (IOException e)
         {
             e.printStackTrace();
-            // return false;
             return new String[] {failure,no_file};
 
         }
 
 
-        //return true;
         return new String[] {result,file_name};
 
     }
+
+    //Obtaining the contents from the text file stored in the internal storage
     public static Notes_cont_stored obtainSelectedNote(Context context, String file_name)
     {
         File file = new File(context.getFilesDir(),file_name);
-        //Note_elements note_elm;
         Notes_cont_stored notes_content;
 
         if(file.exists())
         {
+            //file io operations
             FileInputStream file_inp;
             ObjectInputStream obj_inp;
 
@@ -606,7 +532,7 @@ public class CreateNotes extends AppCompatActivity {
                 file_inp = context.openFileInput(file_name);
                 obj_inp = new ObjectInputStream(file_inp);
 
-                //note_elm = (Note_elements) obj_inp.readObject();
+
                 notes_content = (Notes_cont_stored) obj_inp.readObject();
 
                 file_inp.close();
@@ -617,7 +543,6 @@ public class CreateNotes extends AppCompatActivity {
                 e.printStackTrace();
                 return null;
             }
-            //return note_elm;
             return notes_content;
 
         }
@@ -626,6 +551,7 @@ public class CreateNotes extends AppCompatActivity {
 
     }
 
+    //function to delete the text file from the local storage of the device and from the database
     public static void deleteNote(Context context, String file_name) {
 
         Notes_main notes_main = new Notes_main();
@@ -636,51 +562,25 @@ public class CreateNotes extends AppCompatActivity {
             file.delete();
         notes_main.setID(id_notes);
 
-        dbh.deleteNotes_main(notes_main);
+        dbh.deleteNotes_main(notes_main); //deleting the data from the database
     }
 
+    //function to share the file through other applications
 
-    /*public void obtainAttachments(long id_notes)
+    public void sharenotes(Context context,String file_name)
     {
-        Notes_content notes_content = new Notes_content();
-        notes_content.setID(id_notes);
+        File file = new File(context.getFilesDir(),file_name);
 
-        ArrayList<Notes_content> notes_items = dbh.RetrieveNotes_content(notes_content);
+        Intent shareintent = new Intent(Intent.ACTION_SEND);
+        shareintent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-        if( notes_items == null)
-        {
-            Toast.makeText(this,"No notes available.Please create a new note!",Toast.LENGTH_SHORT).show();
-            return;
+        Uri uri = FileProvider.getUriForFile(this,BuildConfig.APPLICATION_ID,file);
 
-        }
-        else
-        {
-            Notes_attachment_list_adapter notesattachadapter = new Notes_attachment_list_adapter(this, R.layout.activity_notes_attachments,notes_items);
-            attachmentlist.setAdapter(notesattachadapter);
+        shareintent.setDataAndType(uri,"text/*");
+        shareintent.putExtra(Intent.EXTRA_STREAM,uri);
+        startActivity(Intent.createChooser(shareintent,"Share via"));
 
-            attachmentlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    String item_location = ((Notes_content)attachmentlist.getItemAtPosition(i)).getContent();
-
-                    open_media(item_location);
-                    return;
-
-                }
-            });
-
-
-
-
-
-        }
     }
-    public void open_media(String media_location)
-    {
-        Toast.makeText(this,"Item location "+media_location,Toast.LENGTH_SHORT).show();
-        return;
 
-    }*/
 
 }

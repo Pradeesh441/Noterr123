@@ -21,29 +21,16 @@
         android:id="@+id/notes_create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="53dp"
-
+        android:layout_marginBottom="36dp"
+        android:layout_marginEnd="38dp"
         android:clickable="true"
         android:paddingBottom="40dp"
-        android:src="@android:drawable/ic_menu_add"
+        android:src="@android:drawable/ic_input_add"
         app:backgroundTint="@color/colorPrimary" />
 
-    <!--<android.support.design.widget.FloatingActionButton
-        android:id="@+id/notes_create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:paddingBottom="40dp"
-        android:src="@android:drawable/ic_menu_add"
-        app:backgroundTint="@color/colorPrimary"
-        android:clickable="true"/>
-
-        android:layout_marginEnd="31dp"
-        android:layout_marginend="25dp"-->
 
 
 </RelativeLayout>

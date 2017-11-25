@@ -1,5 +1,6 @@
 package com.example.shiv.cal.Noterr;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.Toast;
 
 
 public class Day_view extends AppCompatActivity {
@@ -76,7 +77,7 @@ public class Day_view extends AppCompatActivity {
         String Year = getIntent().getStringExtra("Year");
         switch(SelectedID) {
             case R.id.Day:
-                Toast.makeText(getBaseContext(),"Day View",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(),"Day View", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(), Day_view.class);
                 i.putExtra("Day", Date);
                 i.putExtra("Month",Month);

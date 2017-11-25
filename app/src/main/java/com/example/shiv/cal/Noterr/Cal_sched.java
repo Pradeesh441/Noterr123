@@ -11,6 +11,10 @@ public class Cal_sched {
     private String Name;
     private Date Date_time;
 
+    private String Venue;
+    private String Loc;
+    private Date Date_crtd;
+
 
     public Date getDate_time() {
         return Date_time;
@@ -62,7 +66,5 @@ public class Cal_sched {
         Date_crtd = date_crtd;
     }
 
-    private String Venue;
-    private String Loc;
-    private Date Date_crtd;
+
 }
