@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Git update.iml" filepath="$PROJECT_DIR$/Git update.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Noterr.iml" filepath="$PROJECT_DIR$/Noterr.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\chand\AndroidStudioProjects\Git update\app\app.iml" filepath="C:\Users\chand\AndroidStudioProjects\Git update\app\app.iml" />
-      <module fileurl="file://C:\Users\chand\AndroidStudioProjects\Git update\git_branch.iml" filepath="C:\Users\chand\AndroidStudioProjects\Git update\git_branch.iml" />
+      <module fileurl="file://C:\Users\Shiv\AndroidStudioProjects\Noterr\app\app.iml" filepath="C:\Users\Shiv\AndroidStudioProjects\Noterr\app\app.iml" />
     </modules>
   </component>
 </project>
