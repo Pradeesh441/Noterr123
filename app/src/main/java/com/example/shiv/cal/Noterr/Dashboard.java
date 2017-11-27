@@ -16,28 +16,14 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button notes = (Button) findViewById(R.id.Notes);
 
-
-        notes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //dbhelper.dummy_delete_notes();
-                notesHome();
-
-            }
-        });
 
     }
 
-    public void notesHome()
-    {
-        Intent noteshome = new Intent(this,Noteshome.class);
-        startActivity(noteshome);
-    }
 
-    public void Click(View view){
+
+    /*public void Click(View view){
         Intent i = new Intent(this, Calendar_view.class);
         startActivity(i);
-    }
+    }*/
 }

@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 /**
  * Created by Shiv on 2017-11-08.
@@ -23,8 +26,25 @@ public class Month_View_Notes extends Fragment {
         String Month = (String) bundle.get("Month");
         String Year = (String) bundle.get("Year");
         int m = Integer.parseInt(Month);
-
+            m++;
         TextView month =(TextView) rootView.findViewById(R.id.Monthtext);
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String StartDate, Enddate;
+        int DDs=1,DDf=30, HHs=0,MMs=0,SSs=0,HHf=23,MMf=59,SSf=59;
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DATE,DDs);
+        c.set(Calendar.MONTH,Integer.parseInt(Month));
+        c.set(Calendar.YEAR, Integer.parseInt(Year));
+        c.set(Calendar.HOUR,HHs);
+        c.set(Calendar.MINUTE,MMs);
+        c.set(Calendar.SECOND,SSs);
+        StartDate =dt.format(c.getTime());    //Date for retrival
+
+        c.set(Calendar.DATE,DDf);
+        c.set(Calendar.HOUR,HHf);
+        c.set(Calendar.MINUTE,MMf);
+        c.set(Calendar.SECOND,SSf);
+        Enddate =dt.format(c.getTime());    //Date for retrival
 
         switch(m){
             case 1:

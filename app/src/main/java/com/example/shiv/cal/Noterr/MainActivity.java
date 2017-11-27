@@ -3,6 +3,8 @@ package com.example.shiv.cal.Noterr;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,15 +12,28 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends Activity {
-    DatabaseHelper dbh;
+    //DatabaseHelper dbh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dbh = new DatabaseHelper(this);
-        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
-        startActivity(intent);
+        //dbh = new DatabaseHelper(this);
+
+        Button notes = (Button) findViewById(R.id.Notes);
+
+
+        notes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //dbhelper.dummy_delete_notes();
+                notesHome();
+
+            }
+        });
+
+       /* Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+        startActivity(intent);*/
 
 
 
@@ -221,10 +236,19 @@ public class MainActivity extends Activity {
 
 
     }
-    public Date getDateTime(String input) throws ParseException {
+    public void notesHome()
+    {
+        Intent noteshome = new Intent(this,Noteshome.class);
+        startActivity(noteshome);
+    }
+    public void Click(View view){
+        Intent i = new Intent(this, Calendar_view.class);
+        startActivity(i);
+    }
+    /*public Date getDateTime(String input) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return dateFormat.parse(input);
-    }
+    }*/
 
 
 }
