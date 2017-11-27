@@ -27,15 +27,19 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCUa9U7ZLDZuB_8hzz9Al-j27Vy5R-d6iA"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Calendar_view" />
-        <activity android:name=".Dashboard"/>
+        <activity android:name=".Calendar_view"
+            android:label="calendar view"
+            android:theme="@style/AppTheme.ActionBar"/>
+       <activity android:name=".Dashboard"
+           android:label="Dashboard"
+           android:theme="@style/AppTheme.ActionBar"/>
 
         <activity
             android:name=".Day_view"
@@ -49,10 +53,27 @@
             android:name=".Month_view"
             android:label="@string/title_activity_month_view"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Create_Event"></activity>
-        <activity android:name=".Noteshome"></activity>
-        <activity android:name=".CreateNotes" ></activity>
-        <activity android:name=".Notes_Attachments"></activity>
+
+
+
+        <activity android:name=".Create_Event"
+            android:label="create event"
+            android:theme="@style/AppTheme.ActionBar"></activity>
+        <activity android:name=".Noteshome"
+            android:label="notes home"
+            android:theme="@style/AppTheme.ActionBar"/>
+        <activity android:name=".CreateNotes"
+            android:label="create notes"
+            android:theme="@style/AppTheme.ActionBar"/>
+        <activity android:name=".Notes_Attachments"
+            android:label="notes attachments"
+            android:theme="@style/AppTheme.ActionBar"></activity>
+        <activity android:name=".Todo_eminent"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Todo_ContentView"
+            android:label="todo content view"
+            android:theme="@style/AppTheme.ActionBar"></activity>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}"
@@ -65,6 +86,8 @@
 
         <activity android:name="com.example.shiv.cal.eventsHome" />
         <activity android:name=".EventsView"></activity>
+
+
     </application>
 
 </manifest>

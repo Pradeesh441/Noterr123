@@ -298,7 +298,8 @@ public class CreateNotes extends AppCompatActivity {
 
         }
 
-        if(requestCode == camera && resultCode == RESULT_OK && data != null) // to open camera
+
+        if(requestCode == camera) // to open camera
         {
 
             String[] img_filePathcol = {MediaStore.Images.Media.DATA};
