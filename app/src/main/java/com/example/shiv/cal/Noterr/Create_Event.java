@@ -14,6 +14,7 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -23,31 +24,36 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
+import java.text.ParseException;
 import java.util.Calendar;
 
 public class Create_Event extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 int yy,mm,dd,HH,MM;
 int yyf,mmf,ddf,HHf,MMf;
+int SSf =00;
     TextView Datetimeview,PlaceName, PlaceAddress;
     Button SetDate,SetLocation,Save, Cancel;
-    private static final int MY_PERMISSION_FINE_LOCATION =101;
+    EditText eventName;
+    DatabaseHelper dbh;
     private static final int PLACE_PICKER_REQUEST =1;
+
+    String datefinal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create__event);
 
-        requestpermissions();
 
+        eventName= (EditText)findViewById(R.id.editText);
         SetDate =(Button)findViewById(R.id.button2);
         Datetimeview = (TextView)findViewById(R.id.textView5);
-        PlaceName = (TextView)findViewById(R.id.textView6);
+        //PlaceName = (TextView)findViewById(R.id.textView6);
         PlaceAddress = (TextView)findViewById(R.id.textView7);
         SetLocation =(Button)findViewById(R.id.button3);
         Save =(Button)findViewById(R.id.button4);
         Cancel =(Button)findViewById(R.id.button5);
-
+        dbh = new DatabaseHelper(this);
 
         Calendar c = Calendar.getInstance();
         yy = c.get(Calendar.YEAR);
@@ -87,7 +93,17 @@ int yyf,mmf,ddf,HHf,MMf;
         Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                long id;
                 Toast.makeText(getApplicationContext(),"Save State",Toast.LENGTH_SHORT).show();
+                Cal_sched firstRecord = new Cal_sched();
+                firstRecord.setName(eventName.getText().toString());
+                try {
+                    firstRecord.setDate_time(dbh.getDateTime(datefinal));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                firstRecord.setVenue(PlaceAddress.getText().toString());
+                id = dbh.createCal_shed(firstRecord);
             }
         });
 
@@ -108,6 +124,7 @@ int yyf,mmf,ddf,HHf,MMf;
         mmf = month;
         ddf = dayOfMonth;
 
+
         Calendar c = Calendar.getInstance();
         HH= c.get(Calendar.HOUR_OF_DAY);
         MM = c.get(Calendar.MINUTE);
@@ -120,33 +137,15 @@ int yyf,mmf,ddf,HHf,MMf;
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         HHf= hourOfDay;
         MMf = minute;
-        Datetimeview.setText(ddf+"/"+mmf+"/"+yyf+" "+HHf+":"+MMf);
+
+        Datetimeview.setText(yyf+"-"+mmf+"-"+ddf+" "+HHf+":"+MMf+":"+SSf);
+
+        mmf++;
+        datefinal =yyf+"-"+mmf+"-"+ddf+" "+HHf+":"+MMf+":"+SSf;
     }
 
 
-    private void requestpermissions() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
-            if(Build.VERSION.SDK_INT<=Build.VERSION_CODES.HONEYCOMB){
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_FINE_LOCATION);
-            }
-        }
-    }
 
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode){
-            case MY_PERMISSION_FINE_LOCATION:
-                if(grantResults[0]!= PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(getApplicationContext(),"this application requires location permission",Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                break;
-
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -154,7 +153,7 @@ int yyf,mmf,ddf,HHf,MMf;
         if(requestCode  == PLACE_PICKER_REQUEST){
             if(resultCode ==RESULT_OK){
                 Place place  = PlacePicker.getPlace(Create_Event.this, data);
-                PlaceName.setText(place.getName());
+                //PlaceName.setText(place.getName());
                 PlaceAddress.setText((CharSequence) place.getAddress());
 
             }

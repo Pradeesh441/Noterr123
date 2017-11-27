@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 /**
  * Created by Shiv on 2017-11-08.
@@ -23,10 +26,28 @@ public class Day_View_Notes extends Fragment {
         String Date= (String) bundle.get("Date");
         String Month = (String) bundle.get("Month");
         String Year = (String) bundle.get("Year");
-
         TextView date =(TextView) rootView.findViewById(R.id.Datetext);
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String StartDate, Enddate;
+        int HHs=0,MMs=0,SSs=0,HHf=23,MMf=59,SSf=59;
+        int month =Integer.parseInt(Month);
 
-        date.setText(Date+"/"+Month+"/"+Year);
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DATE, Integer.parseInt(Date));
+        c.set(Calendar.MONTH,Integer.parseInt(Month));
+        c.set(Calendar.YEAR, Integer.parseInt(Year));
+        c.set(Calendar.HOUR,HHs);
+        c.set(Calendar.MINUTE,MMs);
+        c.set(Calendar.SECOND,SSs);
+        StartDate =dt.format(c.getTime());       //Date for retrival
+
+
+        c.set(Calendar.HOUR,HHf);
+        c.set(Calendar.MINUTE,MMf);
+        c.set(Calendar.SECOND,SSf);
+        Enddate =dt.format(c.getTime());      //Date for retrival
+        month++;
+        date.setText(Date+"/"+month+"/"+Year);
 
         return rootView;
     }

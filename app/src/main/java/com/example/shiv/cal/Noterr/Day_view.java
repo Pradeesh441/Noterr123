@@ -136,6 +136,7 @@ public class Day_view extends AppCompatActivity {
                 case 0:
                    Day_View_Events tab1 = new Day_View_Events();
 
+
                     //Toast.makeText(getApplicationContext(),""+bundle.get("Date")+"/"+ bundle.get("Month")+"/"+bundle.get("Year"),Toast.LENGTH_SHORT).show();
                     tab1.setArguments(bundle);
                             return tab1;
