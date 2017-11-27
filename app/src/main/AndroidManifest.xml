@@ -62,6 +62,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider"/>
         </provider>
+
+        <activity android:name="com.example.shiv.cal.eventsHome" />
+        <activity android:name=".EventsView"></activity>
     </application>
 
 </manifest>

@@ -193,13 +193,77 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     //Date is passes as input
-    public ArrayList<Cal_sched> RetrieveCal_sched(Cal_sched input)   //get all schedules for a particular day
+    /*public ArrayList<Cal_sched> RetrieveCal_sched(Cal_sched input)   //get all schedules for a particular day
     {
         ArrayList<Cal_sched> cshed = new ArrayList<Cal_sched>();
         try
         {
             database = this.getReadableDatabase();
             String retrieveQuery = "SELECT * FROM " + TABLE_NAME3 + " WHERE " + COL_33 + "= '"+ getDateTime(input.getDate_time())+"'";
+            Cursor cur = database.rawQuery(retrieveQuery, null);
+            if(cur.moveToFirst())
+            {
+                do{
+                    Cal_sched cs = new Cal_sched();
+                    cs.setID(cur.getInt(cur.getColumnIndex(COL_31)));
+                    cs.setName(cur.getString(cur.getColumnIndex(COL_32)));
+                    cs.setDate_time(getDateTime(cur.getString(cur.getColumnIndex(COL_33))));
+                    cs.setVenue(cur.getString(cur.getColumnIndex(COL_34)));
+                    cs.setLoc(cur.getString(cur.getColumnIndex(COL_35)));
+                    cs.setDate_crtd(getDateTime(cur.getString(cur.getColumnIndex(COL_36))));
+                    cshed.add(cs);
+                } while (cur.moveToNext());
+            }
+
+        }
+        catch(Exception ex)
+        {
+            Log.d("Exception",ex.getMessage());
+        }
+        return cshed;
+
+
+    }*/
+
+    public ArrayList<Cal_sched> RetrieveCal_sched(Cal_shed_retrival input)   //get all schedules for a particular day
+    {
+        ArrayList<Cal_sched> cshed = new ArrayList<Cal_sched>();
+        try
+        {
+            database = this.getReadableDatabase();
+            String retrieveQuery = "SELECT * FROM " + TABLE_NAME3 + " WHERE " + COL_33 + ">= '"+ getDateTime(input.getStart_Datetime())+"'"+" AND "+ COL_33 + "<= '"+ getDateTime(input.getEnd_Datetime())+"'" ;
+            Cursor cur = database.rawQuery(retrieveQuery, null);
+            if(cur.moveToFirst())
+            {
+                do{
+                    Cal_sched cs = new Cal_sched();
+                    cs.setID(cur.getInt(cur.getColumnIndex(COL_31)));
+                    cs.setName(cur.getString(cur.getColumnIndex(COL_32)));
+                    cs.setDate_time(getDateTime(cur.getString(cur.getColumnIndex(COL_33))));
+                    cs.setVenue(cur.getString(cur.getColumnIndex(COL_34)));
+                    cs.setLoc(cur.getString(cur.getColumnIndex(COL_35)));
+                    cs.setDate_crtd(getDateTime(cur.getString(cur.getColumnIndex(COL_36))));
+                    cshed.add(cs);
+                } while (cur.moveToNext());
+            }
+
+        }
+        catch(Exception ex)
+        {
+            Log.d("Exception",ex.getMessage());
+        }
+        return cshed;
+
+
+    }
+
+    public ArrayList<Cal_sched> dummycalshed()   //get all schedules for a particular day
+    {
+        ArrayList<Cal_sched> cshed = new ArrayList<Cal_sched>();
+        try
+        {
+            database = DatabaseHelper.this.getReadableDatabase();
+            String retrieveQuery = "SELECT * FROM " + TABLE_NAME3;
             Cursor cur = database.rawQuery(retrieveQuery, null);
             if(cur.moveToFirst())
             {
@@ -735,6 +799,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date dt = new Date();
         return dateFormat.format(dt);
+    }
+    public Date newDateformat(String input) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = dateFormat.parse(input);
+
+        return date;
     }
 
 
