@@ -19,7 +19,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 
 /**
@@ -33,7 +32,7 @@ public class Day_View_Events extends Fragment {
    private DatabaseHelper dbhelper;
     ArrayList<Cal_sched> event_items;
     Cal_shed_retrival cal_events = new Cal_shed_retrival();
-    Cal_sched Cal_data = new Cal_sched();
+    //Cal_sched Cal_data = new Cal_sched();
     String StartDate, Enddate;
 
     @Override

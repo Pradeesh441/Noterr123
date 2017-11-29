@@ -1,15 +1,16 @@
 package com.example.shiv.cal.Noterr;
 
-import android.Manifest;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Create_Event extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 int yy,mm,dd,HH,MM;
@@ -36,6 +38,7 @@ int SSf =00;
     EditText eventName;
     DatabaseHelper dbh;
     private static final int PLACE_PICKER_REQUEST =1;
+    public Date dt;
 
     String datefinal;
 
@@ -99,11 +102,26 @@ int SSf =00;
                 firstRecord.setName(eventName.getText().toString());
                 try {
                     firstRecord.setDate_time(dbh.getDateTime(datefinal));
+                    dt = dbh.getDateTime(datefinal);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 firstRecord.setVenue(PlaceAddress.getText().toString());
                 id = dbh.createCal_shed(firstRecord);
+                if (id != 0)
+                {
+                    Integer event_id = Integer.valueOf((int) id);
+                    Long currenttime = System.currentTimeMillis();
+                    Long time_diff = dt.getTime() - currenttime;
+                    Integer eventTime = Integer.valueOf(String.valueOf(time_diff));
+
+                    /*if(event_id >= 0)
+                        scheduleEventNotification(obtainNotification(eventName.getText().toString()),eventTime,event_id);*/
+                    scheduleEventNotification(obtainNotification(eventName.getText().toString()),eventTime,event_id);
+
+
+
+                }
             }
         });
 
@@ -158,5 +176,25 @@ int SSf =00;
 
             }
         }
+    }
+    public void scheduleEventNotification(Notification notification,int delay,int event_id)
+    {
+        Intent notification_intent = new Intent(this,EventschedulePublisher.class);
+        notification_intent.putExtra(EventschedulePublisher.ID,event_id);
+        notification_intent.putExtra(EventschedulePublisher.NOTIFICATION,notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,event_id,notification_intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long notif_time = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,notif_time,pendingIntent);
+    }
+    private Notification obtainNotification(String content)
+    {
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle("Noterr Upcoming Event Notification!");
+        builder.setContentText(content);
+        builder.setSmallIcon(R.drawable.cast_ic_notification_small_icon);
+        builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+        return builder.build();
     }
 }

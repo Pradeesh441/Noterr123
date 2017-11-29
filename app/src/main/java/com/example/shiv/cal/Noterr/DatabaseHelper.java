@@ -138,13 +138,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return todom;
     }
 
-    public ArrayList<Todo_main> RetrieveTodo_main_date(Todo_main input)
+    public ArrayList<Todo_main> RetrieveTodo_main_date(Notes_main_date input)
     {
         ArrayList<Todo_main> todom = new ArrayList<Todo_main>();
         try
         {
             database = this.getReadableDatabase();
-            String retrieveQuery = "SELECT * FROM " + TABLE_NAME1 + " WHERE " + COL_14 + " = '" + getDateTime(input.getDate_crtd())+"'";
+            String retrieveQuery = "SELECT * FROM " + TABLE_NAME1 + " WHERE " + COL_14 + " >= '"+ getDateTime(input.getStart_date())+"'"+" AND "+ COL_14 + " <= '"+ getDateTime(input.getEnd_date())+"'" ;
             Cursor cur = database.rawQuery(retrieveQuery, null);
             if(cur.moveToFirst())
             {
@@ -356,13 +356,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Date is passed as input
-    public ArrayList<Notes_main> RetrieveNotes_main_date(Notes_main input)  //Retrieving notes for a particular day
+    public ArrayList<Notes_main> RetrieveNotes_main_date(Notes_main_date input)  //Retrieving notes for a particular day
     {
         ArrayList<Notes_main> nts_mn = new ArrayList<Notes_main>();
         try
         {
             database = this.getReadableDatabase();
-            String retrieveQuery = "SELECT * FROM " + TABLE_NAME4 +" WHERE "+ COL_43 + " = '"+ getDateTime(input.getDate_crtd())+"'" ;
+            String retrieveQuery = "SELECT * FROM " + TABLE_NAME4 +" WHERE "+ COL_43 + " >= '"+ getDateTime(input.getStart_date())+"'"+" AND "+ COL_43 + " <= '"+ getDateTime(input.getEnd_date())+"'"  ;
             Cursor cur = database.rawQuery(retrieveQuery, null);
             if(cur.moveToFirst())
             {

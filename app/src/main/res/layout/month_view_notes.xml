@@ -16,6 +16,7 @@
         android:layout_centerHorizontal="true"
         android:text="NOTES"
         android:textSize="36dp" />
+
     <TextView
         android:id="@+id/Monthtext"
         android:layout_width="wrap_content"
@@ -24,5 +25,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="13dp"
         android:textSize="20dp" />
+
+    <ListView
+        android:id="@+id/notesmonthview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Monthtext"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="66dp" />
 
 </RelativeLayout>
