@@ -84,9 +84,11 @@
                 android:resource="@xml/provider"/>
         </provider>
 
+
         <activity android:name="com.example.shiv.cal.eventsHome" />
         <activity android:name=".EventsView"></activity>
 
+        <receiver android:name=".EventschedulePublisher"></receiver>
 
     </application>
 

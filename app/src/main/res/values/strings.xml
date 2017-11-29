@@ -16,6 +16,7 @@
 
     <string name="notes_bg_select_color">Select Color</string>
 
+
     <string-array name="color_list">
         <item>Yellow</item>
         <item>Blue</item>

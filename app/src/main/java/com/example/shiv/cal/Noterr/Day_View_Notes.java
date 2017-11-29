@@ -1,13 +1,21 @@
 package com.example.shiv.cal.Noterr;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -17,10 +25,21 @@ import java.util.Calendar;
 
 public class Day_View_Notes extends Fragment {
 
+    private ListView notesdaylist;
+    // private DatabaseHelper dbhelper = new DatabaseHelper(getActivity());
+    private DatabaseHelper dbhelper;
+    ArrayList<Notes_main> notes_items;
+    Notes_main_date notes_input = new Notes_main_date();
+    //Notes_main notes_data = new Notes_main();
+    String StartDate, Enddate;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.day_view_notes, container, false);
+
+        Context context = getActivity();
+        dbhelper = new DatabaseHelper(context);
 
         Bundle bundle=getArguments();
         String Date= (String) bundle.get("Date");
@@ -28,7 +47,6 @@ public class Day_View_Notes extends Fragment {
         String Year = (String) bundle.get("Year");
         TextView date =(TextView) rootView.findViewById(R.id.Datetext);
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String StartDate, Enddate;
         int HHs=0,MMs=0,SSs=0,HHf=23,MMf=59,SSf=59;
         int month =Integer.parseInt(Month);
 
@@ -51,5 +69,73 @@ public class Day_View_Notes extends Fragment {
 
         return rootView;
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        notesdaylist = (ListView) getActivity().findViewById(R.id.notesdayview);
+        try {
+            notes_input.setStart_date(dbhelper.getDateTime(StartDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            notes_input.setEnd_date(dbhelper.getDateTime(Enddate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
+        notes_items = dbhelper.RetrieveNotes_main_date(notes_input);
+
+        if (notes_items == null) {
+            Toast.makeText(getContext(), "No notes available.Please create a new note!", Toast.LENGTH_SHORT).show();
+
+
+        } else {
+            Notes_Adapter notesadapter = new Notes_Adapter(getContext(), R.layout.notes_item, notes_items);
+            notesdaylist.setAdapter(notesadapter);
+            Toast.makeText(getContext(), "Events for the day", Toast.LENGTH_SHORT).show();
+            notesdaylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                    long identity = ((Notes_main)notesdaylist.getItemAtPosition(i)).getID();
+                    String title = ((Notes_main)notesdaylist.getItemAtPosition(i)).getDesc();
+                    String tag = ((Notes_main)notesdaylist.getItemAtPosition(i)).getTag();
+                    String bg_color = ((Notes_main)notesdaylist.getItemAtPosition(i)).getBg_color();
+
+                    Notes_content nts_cont = new Notes_content();
+                    nts_cont.setID(identity);
+
+                    ArrayList<Notes_content> notes_cont = dbhelper.RetrieveNotes_content(nts_cont);
+
+                    String file = notes_cont.get(0).getContent();
+
+                    // On selecting a note, call the next page where the corresponding content will be displayed. To open a next page with corresponding
+                    // details , the actual details of the selected notes are sent to the page
+                    Intent vwnote = new Intent(getActivity(),CreateNotes.class);
+                    vwnote.putExtra("ID",identity);
+                    vwnote.putExtra("title",title);
+                    vwnote.putExtra("tag",tag);
+                    vwnote.putExtra("color",bg_color);
+                    vwnote.putExtra("NOTE FILE",file);
+                    startActivity(vwnote);
+
+                    return;
+
+                }
+            });
+
+
+
+
+            return;
+        }
+
+    }
+
+
 }
 
