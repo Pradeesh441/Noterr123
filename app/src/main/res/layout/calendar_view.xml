@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp" />
+        android:layout_marginTop="61dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -23,15 +23,5 @@
         android:clickable="true"
         app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_input_add" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/calendarView"
-        android:layout_alignTop="@+id/fab"
-        android:layout_marginStart="48dp"
-        android:text="View Events"
-        android:visibility="visible" />
 
 </RelativeLayout>

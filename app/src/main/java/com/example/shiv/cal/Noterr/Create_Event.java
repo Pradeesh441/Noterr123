@@ -1,15 +1,16 @@
 package com.example.shiv.cal.Noterr;
 
-import android.Manifest;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Create_Event extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 int yy,mm,dd,HH,MM;
@@ -36,8 +38,11 @@ int SSf =00;
     EditText eventName;
     DatabaseHelper dbh;
     private static final int PLACE_PICKER_REQUEST =1;
-
+    public Date dt;
+    public String notification_message;
     String datefinal;
+ Date dateset,today;
+    Calendar c,ct,ct2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,7 @@ int SSf =00;
         Save =(Button)findViewById(R.id.button4);
         Cancel =(Button)findViewById(R.id.button5);
         dbh = new DatabaseHelper(this);
+
 
         Calendar c = Calendar.getInstance();
         yy = c.get(Calendar.YEAR);
@@ -94,24 +100,55 @@ int SSf =00;
             @Override
             public void onClick(View v) {
                 long id;
-                Toast.makeText(getApplicationContext(),"Save State",Toast.LENGTH_SHORT).show();
                 Cal_sched firstRecord = new Cal_sched();
+                if (eventName.getText().toString().isEmpty() ||  Datetimeview.getText().toString().isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(),"Please enter requested details",Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+
+                if(dateset.before(today) )
+                {
+                    Toast.makeText(getApplicationContext(),"Please select an Appropriate Date/time",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 firstRecord.setName(eventName.getText().toString());
                 try {
                     firstRecord.setDate_time(dbh.getDateTime(datefinal));
+                    dt = dbh.getDateTime(datefinal);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 firstRecord.setVenue(PlaceAddress.getText().toString());
                 id = dbh.createCal_shed(firstRecord);
+                if (id != 0)
+                {
+                    Integer event_id = Integer.valueOf((int) id);
+                    Long currenttime = System.currentTimeMillis();
+                    Long time_diff = dt.getTime() - currenttime - 600000;
+                    Integer eventTime = Integer.valueOf(String.valueOf(time_diff));
+                    notification_message = eventName.getText().toString() + " at " + datefinal;
+
+                    if(event_id >= 0)
+                        scheduleEventNotification(obtainNotification(notification_message),eventTime,event_id);
+
+                    Toast.makeText(getApplicationContext(),"Event created!",Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                    Toast.makeText(getApplicationContext(),"Sorry! Event was not created",Toast.LENGTH_SHORT).show();
+
+                finish();
+
             }
         });
 
         Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Create_Event.this,Calendar_view.class);
-                startActivity(i);
+                finish();
             }
         });
 
@@ -124,10 +161,13 @@ int SSf =00;
         mmf = month;
         ddf = dayOfMonth;
 
-
-        Calendar c = Calendar.getInstance();
+        ct = Calendar.getInstance();
+        c = Calendar.getInstance();
         HH= c.get(Calendar.HOUR_OF_DAY);
         MM = c.get(Calendar.MINUTE);
+
+
+
             TimePickerDialog tpd = new TimePickerDialog(Create_Event.this,Create_Event.this,HH,MM, DateFormat.is24HourFormat(this));
             tpd.show();
 
@@ -137,8 +177,19 @@ int SSf =00;
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         HHf= hourOfDay;
         MMf = minute;
+        ct2 = Calendar.getInstance();
+        ct2.set(yyf,mmf,ddf,HHf,MMf);
+        dateset= ct2.getTime();
+        today = ct.getTime();
 
         Datetimeview.setText(yyf+"-"+mmf+"-"+ddf+" "+HHf+":"+MMf+":"+SSf);
+
+        if(dateset.before(today) )
+        {
+            Toast.makeText(getApplicationContext(),"The time has already passed.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Please create an event for future!",Toast.LENGTH_SHORT).show();
+            //return;
+        }
 
         mmf++;
         datefinal =yyf+"-"+mmf+"-"+ddf+" "+HHf+":"+MMf+":"+SSf;
@@ -158,5 +209,25 @@ int SSf =00;
 
             }
         }
+    }
+    public void scheduleEventNotification(Notification notification,int delay,int event_id)
+    {
+        Intent notification_intent = new Intent(this,EventschedulePublisher.class);
+        notification_intent.putExtra(EventschedulePublisher.ID,event_id);
+        notification_intent.putExtra(EventschedulePublisher.NOTIFICATION,notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,event_id,notification_intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long notif_time = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,notif_time,pendingIntent);
+    }
+    private Notification obtainNotification(String content)
+    {
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle("Noterr Notification!");
+        builder.setContentText(content);
+        builder.setSmallIcon(R.drawable.cast_ic_notification_small_icon);
+        builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+        return builder.build();
     }
 }

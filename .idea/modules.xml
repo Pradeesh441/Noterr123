@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Noterr.iml" filepath="$PROJECT_DIR$/Noterr.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\Shiv\AndroidStudioProjects\Noterr\app\app.iml" filepath="C:\Users\Shiv\AndroidStudioProjects\Noterr\app\app.iml" />
     </modules>
   </component>
 </project>

@@ -104,6 +104,12 @@ public class Month_view extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        Intent i = new Intent(this, Calendar_view.class);
+        startActivity(i);
+    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -127,7 +133,7 @@ public class Month_view extends AppCompatActivity {
             bundle.putString("Month", month);
             bundle.putString("Year", year);
 
-            Toast.makeText(getApplicationContext(), day+month+year, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), day+month+year, Toast.LENGTH_SHORT).show();
 
             switch (position) {
                 case 0:
@@ -161,7 +167,7 @@ public class Month_view extends AppCompatActivity {
                 case 1:
                     return "Notes";
                 case 2:
-                    return "To_Do's";
+                    return "To Do's";
             }
             return null;
         }

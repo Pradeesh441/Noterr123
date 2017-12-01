@@ -7,12 +7,12 @@ import java.util.Date;
  */
 
 public class Cal_sched {
-    private Integer ID;
+    private Long ID;
     private String Name;
     private Date Date_time;
 
     private String Venue;
-    private String Loc;
+   // private String Loc;
     private Date Date_crtd;
 
 
@@ -20,17 +20,19 @@ public class Cal_sched {
         return Date_time;
     }
 
+    public Long getID() {
+        return ID;
+    }
+
+    public void setID(Long ID) {
+        this.ID = ID;
+    }
+
     public void setDate_time(Date date_time) {
         Date_time = date_time;
     }
 
-    public Integer getID() {
-        return ID;
-    }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
-    }
 
     public String getName() {
         return Name;
@@ -50,13 +52,13 @@ public class Cal_sched {
         Venue = venue;
     }
 
-    public String getLoc() {
+    /*public String getLoc() {
         return Loc;
     }
 
     public void setLoc(String loc) {
         Loc = loc;
-    }
+    }*/
 
     public Date getDate_crtd() {
         return Date_crtd;

@@ -36,10 +36,13 @@ public class Day_view extends AppCompatActivity {
     private ViewPager mViewPager;
     String day, month, year;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day_view);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -102,11 +105,19 @@ public class Day_view extends AppCompatActivity {
                 startActivity(k);
                 break;
 
+           /* case android.R.id.home:
+                finish();*/
+
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -153,6 +164,8 @@ public class Day_view extends AppCompatActivity {
             }
         }
 
+
+
         @Override
         public int getCount() {
             // Show 3 total pages.
@@ -167,9 +180,10 @@ public class Day_view extends AppCompatActivity {
                 case 1:
                     return "Notes";
                 case 2:
-                    return "To_Do's";
+                    return "To Do's";
             }
             return null;
         }
+
     }
 }

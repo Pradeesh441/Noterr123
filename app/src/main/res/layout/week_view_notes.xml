@@ -25,4 +25,13 @@
         android:layout_marginTop="13dp"
         android:textSize="20dp" />
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Weektext"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:id="@+id/notesweekview"
+        android:background="@drawable/border"/>
+
 </RelativeLayout>

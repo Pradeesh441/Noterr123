@@ -75,8 +75,8 @@ public class Week_View_Events extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
         eventsweeklist = (ListView) getActivity().findViewById(R.id.listweekevents);
         try {
@@ -94,22 +94,24 @@ public class Week_View_Events extends Fragment {
 
         event_items = dbhelper.RetrieveCal_sched(cal_events);
 
-        if (event_items == null) {
-            Toast.makeText(getContext(), "No notes available.Please create a new note!", Toast.LENGTH_SHORT).show();
+        if (event_items.isEmpty()) {
+            Toast.makeText(getContext(), "No Events Created!", Toast.LENGTH_SHORT).show();
 
 
         } else {
             EventsAdapter eventsadapter = new EventsAdapter(getContext(), R.layout.event_items, event_items);
             eventsweeklist.setAdapter(eventsadapter);
-            Toast.makeText(getContext(), "Events for the day", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "Events for the day", Toast.LENGTH_SHORT).show();
             eventsweeklist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                    Long ident = ((Cal_sched) eventsweeklist.getItemAtPosition(i)).getID();
                     String name = ((Cal_sched) eventsweeklist.getItemAtPosition(i)).getName();
                     String datetime = dbhelper.getDateTime(((Cal_sched) eventsweeklist.getItemAtPosition(i)).getDate_time());
                     String address = ((Cal_sched) eventsweeklist.getItemAtPosition(i)).getVenue();
 
                     Intent intent = new Intent(getActivity(), EventsView.class);
+                    intent.putExtra("ID",ident);
                     intent.putExtra("Name", name);
                     intent.putExtra("Date/Time", datetime);
                     intent.putExtra("Address", address);

@@ -48,7 +48,7 @@ public class eventsHome extends AppCompatActivity {
                     startActivity(vwnote);*/
 
                     //int id = ((Notes_main)noteslist.getItemAtPosition(i)).getID();
-                    // long id = ((Cal_sched)eventslist.getItemAtPosition(i)).getID();
+                    long id = ((Cal_sched)eventslist.getItemAtPosition(i)).getID();
                     String name = ((Cal_sched) eventslist.getItemAtPosition(i)).getName();
                     String datetime = dbhelper.getDateTime(((Cal_sched) eventslist.getItemAtPosition(i)).getDate_time());
                     String address = ((Cal_sched) eventslist.getItemAtPosition(i)).getVenue();
@@ -56,6 +56,7 @@ public class eventsHome extends AppCompatActivity {
 
                     Intent intent = new Intent(getApplicationContext(), EventsView.class);
                     //vwnote.putExtra("NOTE FILE",file)
+                    intent.putExtra("ID", id);
                     intent.putExtra("Name", name);
                     intent.putExtra("Date/Time", datetime);
                     intent.putExtra("Address", address);

@@ -19,5 +19,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:backgroundTint="@color/colorPrimaryDark"
-        app:srcCompat="@android:drawable/btn_star" />
+        app:srcCompat="@drawable/ic_tick" />
 </LinearLayout>

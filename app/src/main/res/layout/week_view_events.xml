@@ -32,7 +32,8 @@
         android:layout_below="@+id/Weektext"
         android:layout_marginStart="13dp"
         android:layout_marginTop="69dp"
-        android:id="@+id/listweekevents"/>
+        android:id="@+id/listweekevents"
+        android:background="@drawable/border"/>
 
 
 </RelativeLayout>

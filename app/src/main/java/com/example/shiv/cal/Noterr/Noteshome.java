@@ -173,14 +173,10 @@ public class Noteshome extends AppCompatActivity {
 
         //checking if there are any notes created earlier and are available in database. If yes populate them as a list view, else display a message to create one
 
-        if( notes_items == null)
+        if( !notes_items.isEmpty())
         {
-            Toast.makeText(this,"No notes available.Please create a new note!",Toast.LENGTH_SHORT).show();
-            return;
-
-        }
-        else
-        {
+            TextView nonotes = (TextView)findViewById(R.id.Nonotes);
+            nonotes.setVisibility(TextView.INVISIBLE);
             noteadapter = new Notes_Adapter(this, R.layout.notes_item,notes_items);
             noteslist.setAdapter(noteadapter);
 

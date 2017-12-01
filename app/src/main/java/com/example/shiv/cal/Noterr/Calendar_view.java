@@ -24,7 +24,6 @@ public class Calendar_view extends AppCompatActivity{
         setContentView(R.layout.calendar_view);
 
         CalendarView cal = (CalendarView) findViewById(R.id.calendarView);
-        Button viewEvents = (Button) findViewById(R.id.button7);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +40,7 @@ public class Calendar_view extends AppCompatActivity{
                 String Date = String.valueOf(dayOfMonth);
                 String  Month = String.valueOf(month);
                 String Year = String.valueOf(year);
-                Toast.makeText(getApplicationContext(),Month, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),Month, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(), Day_view.class);
                 i.putExtra("Day", Date);
                 i.putExtra("Month",Month);
@@ -53,14 +52,14 @@ public class Calendar_view extends AppCompatActivity{
             }
         });
 
-        viewEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), eventsHome.class);
-                startActivity(i);
-            }
-        });
 
+
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        finish();
     }
 
 }

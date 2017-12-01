@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_32 = "Name";
     public static final String COL_33 = "Datetime";
     public static final String COL_34 = "Venue";
-    public static final String COL_35 = "Loc";
+    //public static final String COL_35 = "Loc";
     public static final String COL_36 = "Date_crtd";
     public static final String COL_41 = "ID";
     public static final String COL_42 = "Desc";
@@ -80,7 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_NAME2 +"("+COL_21+" INTEGER PRIMARY KEY AUTOINCREMENT,"+COL_22+" INTEGER NOT NULL,"+COL_23+" TEXT NOT NULL,"
                 +COL_24+" INTEGER NOT NULL,"+"FOREIGN KEY ("+COL_22+") REFERENCES "+TABLE_NAME1+"("+COL_11+"));");
         db.execSQL("create table " + TABLE_NAME3 +"("+COL_31+" INTEGER PRIMARY KEY AUTOINCREMENT,"+COL_32+" TEXT NOT NULL," +
-                COL_33+" DATETIME NOT NULL,"+COL_34+" TEXT,"+COL_35+" TEXT,"+COL_36+" DATETIME);");
+                COL_33+" DATETIME NOT NULL,"+COL_34+" TEXT,"+COL_36+" DATETIME);");
         db.execSQL("create table " + TABLE_NAME4 +"("+COL_41+" INTEGER PRIMARY KEY AUTOINCREMENT," + COL_42 +" TEXT NOT NULL,"+COL_43+" DATETIME NOT NULL," +
                 COL_44+" TEXT,"+COL_45+" TEXT NOT NULL);");
         db.execSQL("create table " + TABLE_NAME5 +"("+COL_51+" INTEGER PRIMARY KEY AUTOINCREMENT,"+COL_52+" INTEGER NOT NULL,"+ COL_53+" TEXT NOT NULL,"
@@ -138,13 +138,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return todom;
     }
 
-    public ArrayList<Todo_main> RetrieveTodo_main_date(Todo_main input)
+    public ArrayList<Todo_main> RetrieveTodo_main_date(Notes_main_date input)
     {
         ArrayList<Todo_main> todom = new ArrayList<Todo_main>();
         try
         {
             database = this.getReadableDatabase();
-            String retrieveQuery = "SELECT * FROM " + TABLE_NAME1 + " WHERE " + COL_14 + " = '" + getDateTime(input.getDate_crtd())+"'";
+            String retrieveQuery = "SELECT * FROM " + TABLE_NAME1 + " WHERE " + COL_14 + " >= '"+ getDateTime(input.getStart_date())+"'"+" AND "+ COL_14 + " <= '"+ getDateTime(input.getEnd_date())+"'" ;
             Cursor cur = database.rawQuery(retrieveQuery, null);
             if(cur.moveToFirst())
             {
@@ -237,11 +237,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             {
                 do{
                     Cal_sched cs = new Cal_sched();
-                    cs.setID(cur.getInt(cur.getColumnIndex(COL_31)));
+                    cs.setID(cur.getLong(cur.getColumnIndex(COL_31)));
                     cs.setName(cur.getString(cur.getColumnIndex(COL_32)));
                     cs.setDate_time(getDateTime(cur.getString(cur.getColumnIndex(COL_33))));
                     cs.setVenue(cur.getString(cur.getColumnIndex(COL_34)));
-                    cs.setLoc(cur.getString(cur.getColumnIndex(COL_35)));
+                    //cs.setLoc(cur.getString(cur.getColumnIndex(COL_35)));
                     cs.setDate_crtd(getDateTime(cur.getString(cur.getColumnIndex(COL_36))));
                     cshed.add(cs);
                 } while (cur.moveToNext());
@@ -269,11 +269,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             {
                 do{
                     Cal_sched cs = new Cal_sched();
-                    cs.setID(cur.getInt(cur.getColumnIndex(COL_31)));
+                    cs.setID(cur.getLong(cur.getColumnIndex(COL_31)));
                     cs.setName(cur.getString(cur.getColumnIndex(COL_32)));
                     cs.setDate_time(getDateTime(cur.getString(cur.getColumnIndex(COL_33))));
                     cs.setVenue(cur.getString(cur.getColumnIndex(COL_34)));
-                    cs.setLoc(cur.getString(cur.getColumnIndex(COL_35)));
+                    //cs.setLoc(cur.getString(cur.getColumnIndex(COL_35)));
                     cs.setDate_crtd(getDateTime(cur.getString(cur.getColumnIndex(COL_36))));
                     cshed.add(cs);
                 } while (cur.moveToNext());
@@ -356,13 +356,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Date is passed as input
-    public ArrayList<Notes_main> RetrieveNotes_main_date(Notes_main input)  //Retrieving notes for a particular day
+    public ArrayList<Notes_main> RetrieveNotes_main_date(Notes_main_date input)  //Retrieving notes for a particular day
     {
         ArrayList<Notes_main> nts_mn = new ArrayList<Notes_main>();
         try
         {
             database = this.getReadableDatabase();
-            String retrieveQuery = "SELECT * FROM " + TABLE_NAME4 +" WHERE "+ COL_43 + " = '"+ getDateTime(input.getDate_crtd())+"'" ;
+            String retrieveQuery = "SELECT * FROM " + TABLE_NAME4 +" WHERE "+ COL_43 + " >= '"+ getDateTime(input.getStart_date())+"'"+" AND "+ COL_43 + " <= '"+ getDateTime(input.getEnd_date())+"'"  ;
             Cursor cur = database.rawQuery(retrieveQuery, null);
             if(cur.moveToFirst())
             {
@@ -536,7 +536,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         data.put(COL_32,input.getName());
         data.put(COL_33,getDateTime(input.getDate_time())); //to be noted
         data.put(COL_34,input.getVenue());
-        data.put(COL_35,input.getLoc());
+        //data.put(COL_35,input.getLoc());
         data.put(COL_36,getCurrentdatetime());
 
         long id = database.insert(TABLE_NAME3,null,data);
@@ -654,7 +654,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         data.put(COL_32,input.getName());
         data.put(COL_33, String.valueOf(input.getDate_time()));
         data.put(COL_34, input.getVenue());
-        data.put(COL_35,input.getLoc());
+        //data.put(COL_35,input.getLoc());
 
         long id = database.update(TABLE_NAME3,data,COL_31 +" = " +input.getID(),null);
 

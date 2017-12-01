@@ -3,26 +3,21 @@ package com.example.shiv.cal.Noterr;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 
 public class Todo_ContentView extends AppCompatActivity {
@@ -47,6 +42,10 @@ public class Todo_ContentView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo__content_view);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
 
         listItems=(ListView) findViewById(R.id.listViewContent);
         listToString=new ArrayList<String>();
@@ -55,7 +54,7 @@ public class Todo_ContentView extends AppCompatActivity {
         myIntent = getIntent();
         checkCompleted=new ArrayList<String>();
         a=myIntent.getStringExtra("theId");
-        Log.e("id",a);
+        //Log.e("id",a);
 
         sPrefs= getSharedPreferences("intValue", 0);
         mInt = sPrefs.getInt("myValue",1);
@@ -108,6 +107,13 @@ public class Todo_ContentView extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+
+        return  true;
+    }
 
     private void onButtonClicked(){
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab2);

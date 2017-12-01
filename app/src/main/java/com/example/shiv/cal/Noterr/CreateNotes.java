@@ -225,7 +225,10 @@ public class CreateNotes extends AppCompatActivity {
 
         }
         else if (item.getItemId() == R.id.share) // to share the notes through other apps
-            sharenotes(CreateNotes.this,Note_File);
+        {
+            if(id_notes != 0)
+                sharenotes(CreateNotes.this, Note_File);
+        }
         else if (item.getItemId() == android.R.id.home) // to get back to the notes home page
             finish();
 

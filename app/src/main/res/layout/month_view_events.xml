@@ -32,7 +32,8 @@
         android:layout_below="@+id/Monthtext"
         android:layout_marginStart="18dp"
         android:layout_marginTop="61dp"
-        android:id="@+id/listmonthevents"/>
+        android:id="@+id/listmonthevents"
+        android:background="@drawable/border"/>
 
 
 </RelativeLayout>

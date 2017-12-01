@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -40,15 +41,17 @@ public class Todo_eminent extends AppCompatActivity {
     private ArrayList<Integer> itemsToInt;
     private ArrayList<Todo_main> output;
     private ArrayList<String> itemsToSorted;
+    TextView Notodos;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_eminent);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar);
         lvItems = (ListView) findViewById(R.id.lvItems);
+        Notodos = (TextView)findViewById(R.id.NoTodos);
 
         itemsToInt=new ArrayList<Integer>();
         itemsToSorted=new ArrayList<String>();
