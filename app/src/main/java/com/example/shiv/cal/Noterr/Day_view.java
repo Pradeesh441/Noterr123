@@ -86,6 +86,7 @@ public class Day_view extends AppCompatActivity {
                 i.putExtra("Month",Month);
                 i.putExtra("Year",Year);
                 startActivity(i);
+                finish();
                 break;
             case R.id.Week:
                 Toast.makeText(getBaseContext(),"Week View",Toast.LENGTH_SHORT).show();
@@ -95,6 +96,7 @@ public class Day_view extends AppCompatActivity {
                 j.putExtra("Month",Month);
                 j.putExtra("Year",Year);
                 startActivity(j);
+                finish();
                 break;
             case R.id.Month:
                 Toast.makeText(getBaseContext(),"Month View",Toast.LENGTH_SHORT).show();
@@ -103,7 +105,9 @@ public class Day_view extends AppCompatActivity {
                 k.putExtra("Month",Month);
                 k.putExtra("Year",Year);
                 startActivity(k);
+                finish();
                 break;
+
 
            /* case android.R.id.home:
                 finish();*/

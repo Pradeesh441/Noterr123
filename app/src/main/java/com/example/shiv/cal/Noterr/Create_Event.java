@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
@@ -32,7 +33,7 @@ import java.util.Date;
 public class Create_Event extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 int yy,mm,dd,HH,MM;
 int yyf,mmf,ddf,HHf,MMf;
-int SSf =00;
+int SSf =00, event_id;
     TextView Datetimeview,PlaceName, PlaceAddress;
     Button SetDate,SetLocation,Save, Cancel;
     EditText eventName;
@@ -43,6 +44,7 @@ int SSf =00;
     String datefinal;
  Date dateset,today;
     Calendar c,ct,ct2;
+    Long currenttime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,11 +103,13 @@ int SSf =00;
             public void onClick(View v) {
                 long id;
                 Cal_sched firstRecord = new Cal_sched();
-                if (eventName.getText().toString().isEmpty() ||  Datetimeview.getText().toString().isEmpty())
-                {
-                    Toast.makeText(getApplicationContext(),"Please enter requested details",Toast.LENGTH_SHORT).show();
-                    return;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                    if (eventName.getText().toString().isEmpty() ||  Datetimeview.getText().toString().isEmpty())
+                    {
+                        Toast.makeText(getApplicationContext(),"Please enter requested details",Toast.LENGTH_SHORT).show();
+                        return;
 
+                    }
                 }
 
                 if(dateset.before(today) )
@@ -125,8 +129,8 @@ int SSf =00;
                 id = dbh.createCal_shed(firstRecord);
                 if (id != 0)
                 {
-                    Integer event_id = Integer.valueOf((int) id);
-                    Long currenttime = System.currentTimeMillis();
+                    event_id = Integer.valueOf((int) id);
+                    currenttime = System.currentTimeMillis();
                     Long time_diff = dt.getTime() - currenttime - 600000;
                     Integer eventTime = Integer.valueOf(String.valueOf(time_diff));
                     notification_message = eventName.getText().toString() + " at " + datefinal;
@@ -137,11 +141,21 @@ int SSf =00;
                     Toast.makeText(getApplicationContext(),"Event created!",Toast.LENGTH_SHORT).show();
 
                 }
-                else
+                else{
                     Toast.makeText(getApplicationContext(),"Sorry! Event was not created",Toast.LENGTH_SHORT).show();
 
                 finish();
 
+                Long time_diff = dt.getTime() - currenttime;
+                    Integer eventTime = Integer.valueOf(String.valueOf(time_diff));
+
+                    /*if(event_id >= 0)
+                        scheduleEventNotification(obtainNotification(eventName.getText().toString()),eventTime,event_id);*/
+                    scheduleEventNotification(obtainNotification(eventName.getText().toString()),eventTime,event_id);
+
+
+
+                }
             }
         });
 
@@ -167,9 +181,11 @@ int SSf =00;
         MM = c.get(Calendar.MINUTE);
 
 
-
-            TimePickerDialog tpd = new TimePickerDialog(Create_Event.this,Create_Event.this,HH,MM, DateFormat.is24HourFormat(this));
-            tpd.show();
+        TimePickerDialog tpd = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
+            tpd = new TimePickerDialog(Create_Event.this,Create_Event.this,HH,MM, DateFormat.is24HourFormat(this));
+        }
+        tpd.show();
 
     }
 
@@ -224,7 +240,9 @@ int SSf =00;
     private Notification obtainNotification(String content)
     {
         Notification.Builder builder = new Notification.Builder(this);
+
         builder.setContentTitle("Noterr Notification!");
+        builder.setContentTitle("Noterr Upcoming Event Notification!");
         builder.setContentText(content);
         builder.setSmallIcon(R.drawable.cast_ic_notification_small_icon);
         builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);

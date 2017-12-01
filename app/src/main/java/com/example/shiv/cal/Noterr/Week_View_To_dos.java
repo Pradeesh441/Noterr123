@@ -100,7 +100,6 @@ public class Week_View_To_dos extends Fragment {
             //itemsAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, todo_items);
             To_do_Adapter to_do_adapter = new To_do_Adapter(context,android.R.layout.simple_list_item_1,todo_items);
             todoweeklist.setAdapter(to_do_adapter);
-           // Toast.makeText(getContext(), "Events for the day", Toast.LENGTH_SHORT).show();
             todoweeklist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {

@@ -95,7 +95,6 @@ public class Week_View_Notes extends Fragment {
         } else {
             Notes_Adapter notesadapter = new Notes_Adapter(getContext(), R.layout.notes_item, notes_items);
             notesweeklist.setAdapter(notesadapter);
-            //Toast.makeText(getContext(), "Events for the day", Toast.LENGTH_SHORT).show();
             notesweeklist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {

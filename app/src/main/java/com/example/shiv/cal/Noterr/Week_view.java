@@ -79,6 +79,7 @@ public class Week_view extends AppCompatActivity {
                 i.putExtra("Month",Month);
                 i.putExtra("Year",Year);
                 startActivity(i);
+                finish();
                 break;
             case R.id.Week:
                 Toast.makeText(getBaseContext(),"Week View",Toast.LENGTH_SHORT).show();
@@ -87,6 +88,7 @@ public class Week_view extends AppCompatActivity {
                 j.putExtra("Month",Month);
                 j.putExtra("Year",Year);
                 startActivity(j);
+                finish();
                 break;
             case R.id.Month:
                 Toast.makeText(getBaseContext(),"Month View",Toast.LENGTH_SHORT).show();
@@ -95,6 +97,7 @@ public class Week_view extends AppCompatActivity {
                 k.putExtra("Month",Month);
                 k.putExtra("Year",Year);
                 startActivity(k);
+                finish();
                 break;
 
         }
@@ -102,12 +105,6 @@ public class Week_view extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed()
-    {
-        Intent i = new Intent(this, Calendar_view.class);
-        startActivity(i);
-    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

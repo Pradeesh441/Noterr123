@@ -134,12 +134,10 @@ public class Month_View_To_dos extends Fragment {
         if (todo_items.isEmpty()) {
             Toast.makeText(getContext(), "No Todo's Created!", Toast.LENGTH_SHORT).show();
 
-
         } else {
             //itemsAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, todo_items);
             To_do_Adapter to_do_adapter = new To_do_Adapter(context,android.R.layout.simple_list_item_1,todo_items);
             todomonthlist.setAdapter(to_do_adapter);
-            //Toast.makeText(getContext(), "Events for the day", Toast.LENGTH_SHORT).show();
             todomonthlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {

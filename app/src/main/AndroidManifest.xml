@@ -89,11 +89,13 @@
                 android:resource="@xml/provider" />
         </provider>
 
+
         <activity android:name="com.example.shiv.cal.eventsHome" />
         <activity android:name=".EventsView"
             android:theme="@style/AppTheme.ActionBar"/>
 
-        <receiver android:name=".EventschedulePublisher" />
+
+        <receiver android:name=".EventschedulePublisher"></receiver>
 
         <activity android:name=".Help"
             android:theme="@style/AppTheme.ActionBar">
