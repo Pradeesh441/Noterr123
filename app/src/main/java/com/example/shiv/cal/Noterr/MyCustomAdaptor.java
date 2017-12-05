@@ -12,8 +12,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by lagis on 22/11/2017.
+ * Created by Chaitanya on 22/11/2017.
  */
+
+
+//Adapter for setting to-do list
 
 public class MyCustomAdaptor extends BaseAdapter {
 
@@ -41,7 +44,6 @@ public class MyCustomAdaptor extends BaseAdapter {
     }
 
     public void add(String mycontent,int seqNo, int id){
-
 
     }
 

@@ -25,11 +25,9 @@ import java.util.Calendar;
 public class Week_View_Notes extends Fragment {
 
     private ListView notesweeklist;
-    // private DatabaseHelper dbhelper = new DatabaseHelper(getActivity());
     private DatabaseHelper dbhelper;
     ArrayList<Notes_main> notes_items;
     Notes_main_date notes_input = new Notes_main_date();
-    Notes_main notes_data = new Notes_main();
     String StartDate, Enddate;
 
     @Override
@@ -58,43 +56,45 @@ public class Week_View_Notes extends Fragment {
         c.set(Calendar.SECOND,SSs);
         c.add(Calendar.DATE,-4);
         datetext.append(sdf.format(c.getTime()));
-        StartDate =dt.format(c.getTime());  //Date for retrival
+        StartDate =dt.format(c.getTime());  //  Start Date for retrival
         c.add(Calendar.DATE,7);
         c.set(Calendar.HOUR,HHf);
         c.set(Calendar.MINUTE,MMf);
         c.set(Calendar.SECOND,SSf);
         datetext.append(" To "+sdf.format(c.getTime()));
-        Enddate =dt.format(c.getTime());    //Date for retrival
+        Enddate =dt.format(c.getTime());    //end Date for retrival
         return rootView;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
-        notesweeklist = (ListView) getActivity().findViewById(R.id.notesweekview);
+
+    notesweeklist = (ListView) getActivity().findViewById(R.id.notesweekview);
         try {
-            notes_input.setStart_date(dbhelper.getDateTime(StartDate));
+            notes_input.setStart_date(dbhelper.getDateTime(StartDate));    //Setting start date for retrival
         } catch (ParseException e) {
             e.printStackTrace();
         }
         try {
-            notes_input.setEnd_date(dbhelper.getDateTime(Enddate));
+            notes_input.setEnd_date(dbhelper.getDateTime(Enddate));     //Setting end date for retrival
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
 
 
+        //Retrieving Notes for a particular week
         notes_items = dbhelper.RetrieveNotes_main_date(notes_input);
 
         if (notes_items.isEmpty()) {
-            Toast.makeText(getContext(), "No Notes Created!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No Notes Created!", Toast.LENGTH_SHORT).show();   //Checks if the notes database is empty
 
 
         } else {
             Notes_Adapter notesadapter = new Notes_Adapter(getContext(), R.layout.notes_item, notes_items);
-            notesweeklist.setAdapter(notesadapter);
+            notesweeklist.setAdapter(notesadapter);     // Sets content into notes list from database
             notesweeklist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
@@ -121,12 +121,8 @@ public class Week_View_Notes extends Fragment {
                     startActivity(vwnote);
 
                     return;
-
                 }
             });
-
-
-
 
             return;
         }

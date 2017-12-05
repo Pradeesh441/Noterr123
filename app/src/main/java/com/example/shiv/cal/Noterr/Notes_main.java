@@ -3,13 +3,11 @@ package com.example.shiv.cal.Noterr;
 import java.util.Date;
 
 /**
- * Created by apple on 05/11/17.
+ * Created by Vinod on 05/11/17.
  */
 
 public class Notes_main {
     private Long ID;
-
-
 
     private String Desc;
     private Date Date_crtd;

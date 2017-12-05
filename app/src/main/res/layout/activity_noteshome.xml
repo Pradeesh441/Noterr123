@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/Blue"
     tools:context="com.example.shiv.cal.Noterr.Noteshome">
     <LinearLayout
         android:layout_width="wrap_content"
@@ -15,11 +16,12 @@
         <ListView
             android:id="@+id/noteslist"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            android:layout_height="match_parent"
+            android:dividerHeight="7dip"
+            android:divider="@color/Blue"
+            android:background="@color/Blue"/>
 
     </LinearLayout>
-
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,8 +44,6 @@
         android:paddingBottom="40dp"
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="@color/colorPrimary" />
-
-
 
 </RelativeLayout>
 

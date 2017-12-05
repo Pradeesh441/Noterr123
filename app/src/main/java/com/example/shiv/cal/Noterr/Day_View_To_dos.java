@@ -26,11 +26,9 @@ import java.util.Calendar;
 public class Day_View_To_dos extends Fragment {
 
     private ListView tododaylist;
-    // private DatabaseHelper dbhelper = new DatabaseHelper(getActivity());
     private DatabaseHelper dbhelper;
     ArrayList<Todo_main> todo_items;
     Notes_main_date todo_input = new Notes_main_date();
-    //Todo_main todo_data = new Todo_main();
     String StartDate, Enddate;
 
 
@@ -59,13 +57,13 @@ public class Day_View_To_dos extends Fragment {
         c.set(Calendar.HOUR,HHs);
         c.set(Calendar.MINUTE,MMs);
         c.set(Calendar.SECOND,SSs);
-        StartDate =dt.format(c.getTime());       //Date for retrival
+        StartDate =dt.format(c.getTime());       //StartDate for retrival
 
 
         c.set(Calendar.HOUR,HHf);
         c.set(Calendar.MINUTE,MMf);
         c.set(Calendar.SECOND,SSf);
-        Enddate =dt.format(c.getTime());      //Date for retrival
+        Enddate =dt.format(c.getTime());      //EndDate for retrival
         month++;
         date.setText(Date+"/"+month+"/"+Year);
 
@@ -80,17 +78,17 @@ public class Day_View_To_dos extends Fragment {
 
         tododaylist = (ListView) getActivity().findViewById(R.id.tododayview);
         try {
-            todo_input.setStart_date(dbhelper.getDateTime(StartDate));
+            todo_input.setStart_date(dbhelper.getDateTime(StartDate));    //Setting start date
         } catch (ParseException e) {
             e.printStackTrace();
         }
         try {
-            todo_input.setEnd_date(dbhelper.getDateTime(Enddate));
+            todo_input.setEnd_date(dbhelper.getDateTime(Enddate));     //Setting end date
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-
+        //Retrieving To-Dos for the particular day
 
         todo_items = dbhelper.RetrieveTodo_main_date(todo_input);
 
@@ -99,24 +97,23 @@ public class Day_View_To_dos extends Fragment {
 
 
         } else {
-            //itemsAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, todo_items);
             To_do_Adapter to_do_adapter = new To_do_Adapter(context,android.R.layout.simple_list_item_1,todo_items);
             tododaylist.setAdapter(to_do_adapter);
             tododaylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                    Integer ident = ((Todo_main) tododaylist.getItemAtPosition(i)).getID();
+                    String s = String.valueOf(ident);
 
+                   // On selecting a to-do, call the next page where the corresponding content will be displayed.
                     Intent todoview = new Intent(getActivity(),Todo_ContentView.class);
-                    todoview.putExtra("theId",String.valueOf(i));
-
+                    todoview.putExtra("theId",s);
                     startActivity(todoview);
 
                     return;
 
                 }
             });
-
-
 
             return;
         }

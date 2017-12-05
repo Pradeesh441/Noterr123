@@ -9,14 +9,6 @@
     android:orientation="vertical"
     tools:context="com.example.shiv.cal.Noterr.CreateNotes">
 
-    <!--<EditText
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Title..."
-        android:inputType="textPersonName"
-        android:singleLine="true" />-->
 
     <EditText
         android:id="@+id/content"

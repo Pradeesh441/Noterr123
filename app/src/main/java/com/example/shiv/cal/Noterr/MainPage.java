@@ -8,13 +8,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.shiv.cal.EventsAdapter;
 
@@ -23,14 +21,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/*created by chaitanya on 2017-11-14*/
+/*created by Chaitanya on 2017-11-14*/
 
 public class MainPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView eventsdaylist;
     private ListView notesdaylist;
-    // private DatabaseHelper dbhelper = new DatabaseHelper(getActivity());
     private DatabaseHelper dbhelper;
     ArrayList<Cal_sched> event_items;
     Cal_shed_retrival cal_events = new Cal_shed_retrival();
@@ -48,7 +45,6 @@ public class MainPage extends AppCompatActivity
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int HHs = 00, MMs = 0, SSs = 0, HHf = 23, MMf = 59, SSf = 59;
 
-        TextView set = (TextView) findViewById(R.id.Noterr);
          Noevents = (TextView) findViewById(R.id.textvisible2);
          Nonotes = (TextView) findViewById(R.id.textvisible1);
 
@@ -58,13 +54,13 @@ public class MainPage extends AppCompatActivity
         c.set(Calendar.HOUR, HHs);
         c.set(Calendar.MINUTE, MMs);
         c.set(Calendar.SECOND, SSs);
-        StartDate = dt.format(c.getTime());       //Date for retrival
+        StartDate = dt.format(c.getTime());       //Start Date for retrival
 
 
         c.set(Calendar.HOUR, HHf);
         c.set(Calendar.MINUTE, MMf);
         c.set(Calendar.SECOND, SSf);
-        Enddate = dt.format(c.getTime());     //Date for retrival
+        Enddate = dt.format(c.getTime());     //End Date for retrival
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -76,18 +72,18 @@ public class MainPage extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-       // Toast.makeText(getApplicationContext(),StartDate+Enddate,Toast.LENGTH_SHORT).show();
 
+        //Getting list of events and notes that were created for the current day and displaying in the dashboard
         eventsdaylist = (ListView) findViewById(R.id.listView2);
         notesdaylist = (ListView) findViewById(R.id.listView);
         try {
-            cal_events.setStart_Datetime(dbhelper.getDateTime(StartDate));
+            cal_events.setStart_Datetime(dbhelper.getDateTime(StartDate));   //Setting start date for retival
             notes_input.setStart_date(dbhelper.getDateTime(StartDate));
         } catch (ParseException e) {
             e.printStackTrace();
         }
         try {
-            cal_events.setEnd_Datetime(dbhelper.getDateTime(Enddate));
+            cal_events.setEnd_Datetime(dbhelper.getDateTime(Enddate));  //Setting end date for retrival
             notes_input.setEnd_date(dbhelper.getDateTime(Enddate));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -115,15 +111,17 @@ public class MainPage extends AppCompatActivity
         notesdaylist.setAdapter(null);
 
 
-        notes_items = dbhelper.RetrieveNotes_main_date(notes_input);
+        //Getting list of events and notes that were created for the current day and displaying in the dashboard
+
+        notes_items = dbhelper.RetrieveNotes_main_date(notes_input);      //Setting data retrival for eventa and notes
         event_items = dbhelper.RetrieveCal_sched(cal_events);
 
         if (!event_items.isEmpty()) {
 
-            Noevents.setVisibility(TextView.INVISIBLE);
+            Noevents.setElevation(0);
+
             EventsAdapter eventsadapter = new EventsAdapter(getBaseContext(), R.layout.event_items, event_items);
-            eventsdaylist.setAdapter(eventsadapter);
-            //Toast.makeText(getBaseContext(), "Events for the day", Toast.LENGTH_SHORT).show();
+            eventsdaylist.setAdapter(eventsadapter);             //Setting events  list  adapter in the list
             eventsdaylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
@@ -132,6 +130,7 @@ public class MainPage extends AppCompatActivity
                     String datetime = dbhelper.getDateTime(((Cal_sched) eventsdaylist.getItemAtPosition(i)).getDate_time());
                     String address = ((Cal_sched) eventsdaylist.getItemAtPosition(i)).getVenue();
 
+                    // On selecting a event, call the next page where the corresponding content will be displayed
                     Intent intent = new Intent(getApplicationContext(), EventsView.class);
                     intent.putExtra("ID",ident);
                     intent.putExtra("Name", name);
@@ -143,13 +142,14 @@ public class MainPage extends AppCompatActivity
 
 
         }
+        else
+            Noevents.setElevation(10);
 
 
         if (!notes_items.isEmpty()) {
-            Nonotes.setVisibility(TextView.INVISIBLE);
+            Nonotes.setElevation(0);
             Notes_Adapter notesadapter = new Notes_Adapter(getBaseContext(), R.layout.notes_item, notes_items);
-            notesdaylist.setAdapter(notesadapter);
-            //Toast.makeText(getBaseContext(), "Notes for the day", Toast.LENGTH_SHORT).show();
+            notesdaylist.setAdapter(notesadapter);      //Setting notes list content into notes list
             notesdaylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
@@ -179,12 +179,16 @@ public class MainPage extends AppCompatActivity
 
 
         }
+        else
+            Nonotes.setElevation(10);
 
     }
 
+    //Slider menu
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item) {    //handling the side slide bar on click
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -192,8 +196,6 @@ public class MainPage extends AppCompatActivity
             // Handle the  action
             Intent i = new Intent(this, Calendar_view.class);
             startActivity(i);
-
-
 
 
         } else if (id == R.id.nav_todo) {

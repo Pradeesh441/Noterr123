@@ -7,16 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 
 import java.util.ArrayList;
 
-import static java.security.AccessController.getContext;
-
 /**
- * Created by apple on 11/11/17.
+ * Created by Vinod on 11/11/17.
  */
 
 

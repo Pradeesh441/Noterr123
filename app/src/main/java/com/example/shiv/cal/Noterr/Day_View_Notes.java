@@ -26,11 +26,9 @@ import java.util.Calendar;
 public class Day_View_Notes extends Fragment {
 
     private ListView notesdaylist;
-    // private DatabaseHelper dbhelper = new DatabaseHelper(getActivity());
     private DatabaseHelper dbhelper;
     ArrayList<Notes_main> notes_items;
     Notes_main_date notes_input = new Notes_main_date();
-    //Notes_main notes_data = new Notes_main();
     String StartDate, Enddate;
 
     @Override
@@ -57,13 +55,13 @@ public class Day_View_Notes extends Fragment {
         c.set(Calendar.HOUR,HHs);
         c.set(Calendar.MINUTE,MMs);
         c.set(Calendar.SECOND,SSs);
-        StartDate =dt.format(c.getTime());       //Date for retrival
+        StartDate =dt.format(c.getTime());       //StartDate for retrival
 
 
         c.set(Calendar.HOUR,HHf);
         c.set(Calendar.MINUTE,MMf);
         c.set(Calendar.SECOND,SSf);
-        Enddate =dt.format(c.getTime());      //Date for retrival
+        Enddate =dt.format(c.getTime());      //EndDate for retrival
         month++;
         date.setText(Date+"/"+month+"/"+Year);
 
@@ -71,32 +69,32 @@ public class Day_View_Notes extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
-        notesdaylist = (ListView) getActivity().findViewById(R.id.notesdayview);
+
+    notesdaylist = (ListView) getActivity().findViewById(R.id.notesdayview);
         try {
-            notes_input.setStart_date(dbhelper.getDateTime(StartDate));
+            notes_input.setStart_date(dbhelper.getDateTime(StartDate));   //Setting start date
         } catch (ParseException e) {
             e.printStackTrace();
         }
         try {
-            notes_input.setEnd_date(dbhelper.getDateTime(Enddate));
+            notes_input.setEnd_date(dbhelper.getDateTime(Enddate));    //Setting end date
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-
-
+        //Retrieving Notes  for a particular day
         notes_items = dbhelper.RetrieveNotes_main_date(notes_input);
 
         if (notes_items.isEmpty()) {
-            Toast.makeText(getContext(), "No notes Created!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No notes Created!", Toast.LENGTH_SHORT).show();    //Checks if notes list is empty
 
 
         } else {
             Notes_Adapter notesadapter = new Notes_Adapter(getContext(), R.layout.notes_item, notes_items);
-            notesdaylist.setAdapter(notesadapter);
+            notesdaylist.setAdapter(notesadapter);        //Notes list adapter set
             notesdaylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
@@ -123,18 +121,11 @@ public class Day_View_Notes extends Fragment {
                     startActivity(vwnote);
 
                     return;
-
                 }
             });
 
-
-
-
             return;
         }
-
     }
-
-
 }
 

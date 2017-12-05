@@ -8,17 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import com.example.shiv.cal.Noterr.Cal_sched;
 import com.example.shiv.cal.Noterr.DatabaseHelper;
 import com.example.shiv.cal.Noterr.R;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Shiv on 2017-11-24.
  */
+
+
+//adapter for populating values into list view
 
 public class EventsAdapter  extends ArrayAdapter<Cal_sched>{
 

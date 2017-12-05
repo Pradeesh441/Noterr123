@@ -27,11 +27,9 @@ public class Month_View_To_dos extends Fragment {
 
 
     private ListView todomonthlist;
-    // private DatabaseHelper dbhelper = new DatabaseHelper(getActivity());
     private DatabaseHelper dbhelper;
     ArrayList<Todo_main> todo_items;
     Notes_main_date todo_input = new Notes_main_date();
-    //Todo_main todo_data = new Todo_main();
     String StartDate, Enddate;
 
 
@@ -60,15 +58,15 @@ public class Month_View_To_dos extends Fragment {
         c.set(Calendar.HOUR,HHs);
         c.set(Calendar.MINUTE,MMs);
         c.set(Calendar.SECOND,SSs);
-        StartDate =dt.format(c.getTime());    //Date for retrival
+        StartDate =dt.format(c.getTime());    //Start Date for retrival
 
         c.set(Calendar.DATE,DDf);
         c.set(Calendar.HOUR,HHf);
         c.set(Calendar.MINUTE,MMf);
         c.set(Calendar.SECOND,SSf);
-        Enddate =dt.format(c.getTime());    //Date for retrival
+        Enddate =dt.format(c.getTime());    //End Date for retrival
 
-        switch(m){
+        switch(m){        //Setting the value of month into textview
             case 1:
                 month.setText("January");
                 break;
@@ -117,33 +115,36 @@ public class Month_View_To_dos extends Fragment {
 
         todomonthlist = (ListView) getActivity().findViewById(R.id.todomonthview);
         try {
-            todo_input.setStart_date(dbhelper.getDateTime(StartDate));
+            todo_input.setStart_date(dbhelper.getDateTime(StartDate));     //Setting start date for retrival
         } catch (ParseException e) {
             e.printStackTrace();
         }
         try {
-            todo_input.setEnd_date(dbhelper.getDateTime(Enddate));
+            todo_input.setEnd_date(dbhelper.getDateTime(Enddate));         //Setting end date for retrival
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
 
+        //Retriev To-Dos for the month
 
         todo_items = dbhelper.RetrieveTodo_main_date(todo_input);
 
         if (todo_items.isEmpty()) {
-            Toast.makeText(getContext(), "No Todo's Created!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No Todo's Created!", Toast.LENGTH_SHORT).show();    //Checks if the to-do list os empty
 
         } else {
-            //itemsAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, todo_items);
             To_do_Adapter to_do_adapter = new To_do_Adapter(context,android.R.layout.simple_list_item_1,todo_items);
-            todomonthlist.setAdapter(to_do_adapter);
+            todomonthlist.setAdapter(to_do_adapter);     //Setting the contents of to do into list
             todomonthlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                    Integer ident = ((Todo_main) todomonthlist.getItemAtPosition(i)).getID();
+                    String s = String.valueOf(ident);
 
+                    // On selecting a to-do, call the next page where the corresponding content will be displayed.
                     Intent todoview = new Intent(getActivity(),Todo_ContentView.class);
-                    todoview.putExtra("theId",String.valueOf(i));
+                    todoview.putExtra("theId",s);
 
                     startActivity(todoview);
 
@@ -151,8 +152,6 @@ public class Month_View_To_dos extends Fragment {
 
                 }
             });
-
-
 
             return;
         }

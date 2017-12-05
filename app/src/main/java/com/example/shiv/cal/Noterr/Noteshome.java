@@ -1,8 +1,6 @@
 package com.example.shiv.cal.Noterr;
 
-import android.app.Dialog;
-import android.app.SearchManager;
-import android.content.Context;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -24,11 +22,6 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class Noteshome extends AppCompatActivity {
@@ -40,6 +33,7 @@ public class Noteshome extends AppCompatActivity {
     private Notes_Adapter noteadapter;
     ArrayList<Notes_main> notes_items;
     private MenuItem menuItem;
+    TextView nonotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +41,7 @@ public class Noteshome extends AppCompatActivity {
         setContentView(R.layout.activity_noteshome);
 
         noteslist = (ListView) findViewById(R.id.noteslist);
-
+        nonotes = (TextView)findViewById(R.id.Nonotes);
 
         //Floating button to add notes
         FloatingActionButton float_create = (FloatingActionButton) findViewById(R.id.notes_create);
@@ -175,7 +169,7 @@ public class Noteshome extends AppCompatActivity {
 
         if( !notes_items.isEmpty())
         {
-            TextView nonotes = (TextView)findViewById(R.id.Nonotes);
+
             nonotes.setVisibility(TextView.INVISIBLE);
             noteadapter = new Notes_Adapter(this, R.layout.notes_item,notes_items);
             noteslist.setAdapter(noteadapter);
@@ -213,6 +207,8 @@ public class Noteshome extends AppCompatActivity {
             });
 
         }
+        else
+            nonotes.setVisibility(TextView.VISIBLE);
 
 
     }

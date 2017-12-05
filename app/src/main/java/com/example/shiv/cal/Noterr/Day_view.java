@@ -18,8 +18,6 @@ public class Day_view extends AppCompatActivity {
 
 
 
-
-
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the posections. We use a
@@ -42,7 +40,6 @@ public class Day_view extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day_view);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -78,7 +75,7 @@ public class Day_view extends AppCompatActivity {
         String Date =getIntent().getStringExtra("Day");
         String Month = getIntent().getStringExtra("Month");
         String Year = getIntent().getStringExtra("Year");
-        switch(SelectedID) {
+        switch(SelectedID) {              //Switch for options menu selection
             case R.id.Day:
                 Toast.makeText(getBaseContext(),"Day View", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(), Day_view.class);
@@ -107,11 +104,6 @@ public class Day_view extends AppCompatActivity {
                 startActivity(k);
                 finish();
                 break;
-
-
-           /* case android.R.id.home:
-                finish();*/
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -147,12 +139,9 @@ public class Day_view extends AppCompatActivity {
             bundle.putString("Month", month);
             bundle.putString("Year", year);
 
-            switch (position) {
+            switch (position) {     //Sending contents into fragments using bundle
                 case 0:
                    Day_View_Events tab1 = new Day_View_Events();
-
-
-                    //Toast.makeText(getApplicationContext(),""+bundle.get("Date")+"/"+ bundle.get("Month")+"/"+bundle.get("Year"),Toast.LENGTH_SHORT).show();
                     tab1.setArguments(bundle);
                             return tab1;
                 case 1:
@@ -178,7 +167,7 @@ public class Day_view extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
+            switch (position) {        //Sets the title of Tabs
                 case 0:
                     return "Events";
                 case 1:

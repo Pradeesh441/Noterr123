@@ -57,7 +57,7 @@ public class Week_view extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate he menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -71,7 +71,7 @@ public class Week_view extends AppCompatActivity {
         String Date =getIntent().getStringExtra("Day");
         String Month = getIntent().getStringExtra("Month");
         String Year = getIntent().getStringExtra("Year");
-        switch(SelectedID) {
+        switch(SelectedID) {    //Handles the on click of menu options
             case R.id.Day:
                 Toast.makeText(getBaseContext(),"Day View",Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(), Day_view.class);
@@ -153,7 +153,7 @@ public class Week_view extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
+            switch (position) {        //Sets the title for tabs
                 case 0:
                     return "Events";
                 case 1:

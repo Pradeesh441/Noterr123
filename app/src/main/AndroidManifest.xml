@@ -25,7 +25,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCUa9U7ZLDZuB_8hzz9Al-j27Vy5R-d6iA" />
+            android:value="AIzaSyClgueAuUAXzqZxsMhjOcafj1ptWsO90kk" />
 
         <activity android:name=".MainPage">
             <intent-filter>
@@ -37,10 +37,6 @@
         <activity
             android:name=".Calendar_view"
             android:label="Calendar"
-            android:theme="@style/AppTheme.ActionBar" />
-        <activity
-            android:name=".Dashboard"
-            android:label="Dashboard"
             android:theme="@style/AppTheme.ActionBar" />
         <activity
             android:name=".Day_view"
@@ -90,7 +86,6 @@
         </provider>
 
 
-        <activity android:name="com.example.shiv.cal.eventsHome" />
         <activity android:name=".EventsView"
             android:theme="@style/AppTheme.ActionBar"/>
 

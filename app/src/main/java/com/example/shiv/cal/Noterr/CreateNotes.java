@@ -6,13 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -22,13 +18,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import java.io.File;
@@ -37,15 +29,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CreateNotes extends AppCompatActivity {
 
 
     private EditText Content;
-    public MenuItem Attach;
-
     private String Note_File;
     private Notes_cont_stored cont_obtned;
     public String notes_title;
@@ -53,7 +41,6 @@ public class CreateNotes extends AppCompatActivity {
     public String notes_bg_color;
     public static long id_notes;
     public static DatabaseHelper dbh;
-    public String file_name;
     public static final String F_Exn = ".txt";
     public static int MY_PERMISSION_TO_READ = 12;
     public int check_permission;
@@ -62,7 +49,6 @@ public class CreateNotes extends AppCompatActivity {
     public  static final int gallery = 0;
     public static final int audio = 1;
     public static final int camera = 2;
-    public File camera_file;
     String attach_file_ary [] = new String[20];
     String attach_ftype_ary [] = new String[20];
     int attach_file_cntr = 0;
@@ -322,7 +308,6 @@ public class CreateNotes extends AppCompatActivity {
     //Saving the notes on click of a save button
     private void saveNote()
     {
-        String save_success;
         String noteFileName = null;
 
         Notes_cont_stored notes_cont_stored;
@@ -501,7 +486,7 @@ public class CreateNotes extends AppCompatActivity {
         try{
             file_out = context.openFileOutput(file_name, context.MODE_PRIVATE);
             obj_out = new ObjectOutputStream(file_out);
-            obj_out.writeObject(note);
+            obj_out.writeObject(note.getContent());
             obj_out.close();
             file_out.close();
 
@@ -537,7 +522,7 @@ public class CreateNotes extends AppCompatActivity {
                 obj_inp = new ObjectInputStream(file_inp);
 
 
-                notes_content = (Notes_cont_stored) obj_inp.readObject();
+                notes_content = new Notes_cont_stored((String) obj_inp.readObject());
 
                 file_inp.close();
                 obj_inp.close();

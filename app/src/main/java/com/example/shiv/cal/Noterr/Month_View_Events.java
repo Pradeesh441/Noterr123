@@ -3,7 +3,6 @@ package com.example.shiv.cal.Noterr;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,15 +55,15 @@ public class Month_View_Events extends Fragment {
         c.set(Calendar.HOUR,HHs);
         c.set(Calendar.MINUTE,MMs);
         c.set(Calendar.SECOND,SSs);
-        StartDate =dt.format(c.getTime());    //Date for retrival
+        StartDate =dt.format(c.getTime());    //Start Date for retrival
 
         c.set(Calendar.DATE,DDf);
         c.set(Calendar.HOUR,HHf);
         c.set(Calendar.MINUTE,MMf);
         c.set(Calendar.SECOND,SSf);
-        Enddate =dt.format(c.getTime());    //Date for retrival
+        Enddate =dt.format(c.getTime());    // End Date for retrival
 
-        switch(m){
+        switch(m){        //Setting the value of month into textview
             case 1:
                 month.setText("January");
                 break;
@@ -112,12 +111,12 @@ public class Month_View_Events extends Fragment {
 
         eventsmonthlist = (ListView) getActivity().findViewById(R.id.listmonthevents);
         try {
-            cal_events.setStart_Datetime(dbhelper.getDateTime(StartDate));
+            cal_events.setStart_Datetime(dbhelper.getDateTime(StartDate));      //Setting start date for retrival
         } catch (ParseException e) {
             e.printStackTrace();
         }
         try {
-            cal_events.setEnd_Datetime(dbhelper.getDateTime(Enddate));
+            cal_events.setEnd_Datetime(dbhelper.getDateTime(Enddate));     //Setting end date for retrival
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -126,13 +125,12 @@ public class Month_View_Events extends Fragment {
         event_items = dbhelper.RetrieveCal_sched(cal_events);
 
         if (event_items.isEmpty()) {
-            Toast.makeText(getContext(), "No Events Created!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No Events Created!", Toast.LENGTH_SHORT).show();     //Checks for empty event list
 
 
         } else {
             EventsAdapter eventsadapter = new EventsAdapter(getContext(), R.layout.event_items, event_items);
-            eventsmonthlist.setAdapter(eventsadapter);
-            //Toast.makeText(getContext(), "Events for the month", Toast.LENGTH_SHORT).show();
+            eventsmonthlist.setAdapter(eventsadapter);     //Setting the event list contents into list
 
             eventsmonthlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -141,7 +139,7 @@ public class Month_View_Events extends Fragment {
                     String name = ((Cal_sched) eventsmonthlist.getItemAtPosition(i)).getName();
                     String datetime = dbhelper.getDateTime(((Cal_sched) eventsmonthlist.getItemAtPosition(i)).getDate_time());
                     String address = ((Cal_sched) eventsmonthlist.getItemAtPosition(i)).getVenue();
-
+                    // On selecting a event, call the next page where the corresponding content will be displayed
                     Intent intent = new Intent(getActivity(), EventsView.class);
                     intent.putExtra("ID",ident);
                     intent.putExtra("Name", name);

@@ -44,9 +44,6 @@ public class Todo_ContentView extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
-
         listItems=(ListView) findViewById(R.id.listViewContent);
         listToString=new ArrayList<String>();
         listToCompleted=new ArrayList<Integer>();
@@ -54,50 +51,19 @@ public class Todo_ContentView extends AppCompatActivity {
         myIntent = getIntent();
         checkCompleted=new ArrayList<String>();
         a=myIntent.getStringExtra("theId");
-        //Log.e("id",a);
 
         sPrefs= getSharedPreferences("intValue", 0);
         mInt = sPrefs.getInt("myValue",1);
         Todo_content todo_content = new Todo_content();
         todo_content.setID(Integer.parseInt(a));
         output1=databaseHelper.RetrieveTodo_content(todo_content);
-        Log.e("size",output1.size()+"");
 
-
-//        for(int as=0;as<output1.size();as++){
-//
-//            listToString.add(output1.get(as).getContent());
-//            listToCompleted.add(output1.get(as).getCompleted());
-//            Log.e("seq num",output1.get(as).getSeq_no()+"");
-//            Log.e("completed num",output1.get(as).getCompleted()+"");
-//            Log.e("index value",as+"");
-//
-//            if(output1.get(as).getCompleted()==1){
-//                Log.e("output",output1.get(as).getContent()+"");
-//                Log.e("index value",as+"");
-//                checkCompleted.add(output1.get(as).getContent());
-//                //listItems.getChildAt(as+1).setBackgroundColor(Color.BLUE);
-//
-//            }
-//        }
-//        for(int as=0;as<listItems.getChildCount();as++){
-//            Log.e(checkCompleted.get(as)+" :compare: ",listItems.getChildAt(as)+"");
-//            //if(listItems.getChildAt(as).equals(checkCompleted.get(as))){
-//              //  listItems.getChildAt(as).setBackgroundColor(Color.BLUE);
-//            //}
-//        }
 
         adapter = new MyCustomAdaptor(this, output1);
 
 // get the ListView and attach the adapter
 
         listItems.setAdapter(adapter);
-
-
-
-        //listAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listToString);
-        //listItems.setAdapter(listAdapter);
-
 
         onItemclickChanged();
 
@@ -107,6 +73,7 @@ public class Todo_ContentView extends AppCompatActivity {
 
     }
 
+    //Back button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
@@ -116,14 +83,12 @@ public class Todo_ContentView extends AppCompatActivity {
     }
 
     private void onButtonClicked(){
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab2);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab2);      //Floating dailogue view to add cotents onto to-do
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(Todo_ContentView.this);
-
-
                 builder.setTitle("Add new Description");
                 final EditText input = new EditText(Todo_ContentView.this);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -137,13 +102,8 @@ public class Todo_ContentView extends AppCompatActivity {
                 builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-//                        listAdapter.add(input.getText().toString());
-//
-//                        listItems.setAdapter(listAdapter);
-//                        listAdapter.notifyDataSetChanged();
                         if(input.getText().toString().isEmpty())
                             Toast.makeText(Todo_ContentView.this,"Please eneter the description of the item to add",Toast.LENGTH_SHORT).show();
-
                         Todo_content todo_content=new Todo_content();
                         todo_content.setID(Integer.parseInt(a));
                         todo_content.setContent(input.getText().toString());
@@ -153,7 +113,6 @@ public class Todo_ContentView extends AppCompatActivity {
                         todo_content.setSeq_no(++mInt);
 
                         output1.add(todo_content);
-                        //listItems.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
 
 
@@ -167,21 +126,18 @@ public class Todo_ContentView extends AppCompatActivity {
                     }
 
                 }).setNegativeButton("Cancel",null).show();
-
-                //AlertDialog dialog=builder.create();
             }
         });
     }
 
+    //Single tap to set the task wo completes
     private void onItemclickChanged(){
-
-
 
         listItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int pos, long l) {
 
-                AlertDialog.Builder alertSetCompleted = new AlertDialog.Builder(Todo_ContentView.this,pos);
+                AlertDialog.Builder alertSetCompleted = new AlertDialog.Builder(Todo_ContentView.this,pos);    //Setting the task as accomplished in to-do list
                 alertSetCompleted.setTitle("Are you sure");
                 alertSetCompleted.setMessage("Press ok to set task accomplished ");
 
@@ -191,17 +147,8 @@ public class Todo_ContentView extends AppCompatActivity {
 
                         output1.get(pos).setCompleted(1);
                         output1.get(pos).setSeq_no(output1.get(pos).getSeq_no());
-
-
-//                        output1.add(todo_content);
                         adapter.notifyDataSetChanged();
-                        Log.e(" click listen",listItems.getItemAtPosition(pos)+"");
-
                         databaseHelper.updateTODO_content_compltd(output1.get(pos));
-
-
-
-
 
                     }
                 }).setNegativeButton("Cancel",null);
@@ -219,7 +166,7 @@ public class Todo_ContentView extends AppCompatActivity {
         listItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int pos, long l) {
-
+   //Deleting the to-do entry
                 AlertDialog.Builder builder= new AlertDialog.Builder(Todo_ContentView.this,pos);
 
                 builder.setTitle("Delete Content");

@@ -7,16 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by apple on 18/11/17.
+ * Created by Vinod on 18/11/17.
  */
 
 //Adapter to populate values to the listview of Attachments page

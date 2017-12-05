@@ -3,14 +3,12 @@ package com.example.shiv.cal.Noterr;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +18,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 
 /**
@@ -30,7 +27,6 @@ import java.util.Date;
 public class Week_View_Events extends Fragment {
 
     private ListView eventsweeklist;
-    // private DatabaseHelper dbhelper = new DatabaseHelper(getActivity());
     private DatabaseHelper dbhelper;
     ArrayList<Cal_sched> event_items;
     Cal_shed_retrival cal_events = new Cal_shed_retrival();
@@ -63,13 +59,13 @@ public class Week_View_Events extends Fragment {
         c.set(Calendar.SECOND,SSs);
         c.add(Calendar.DATE,-4);
         datetext.append(sdf.format(c.getTime()));
-        StartDate =dt.format(c.getTime());  //Date for retrival
+        StartDate =dt.format(c.getTime());  // Start Date for retrival
             c.add(Calendar.DATE,7);
         c.set(Calendar.HOUR,HHf);
         c.set(Calendar.MINUTE,MMf);
         c.set(Calendar.SECOND,SSf);
         datetext.append(" To "+sdf.format(c.getTime()));
-           Enddate =dt.format(c.getTime());    //Date for retrival
+           Enddate =dt.format(c.getTime());    // End Date for retrival
 
         return rootView;
     }
@@ -80,28 +76,27 @@ public class Week_View_Events extends Fragment {
 
         eventsweeklist = (ListView) getActivity().findViewById(R.id.listweekevents);
         try {
-            cal_events.setStart_Datetime(dbhelper.getDateTime(StartDate));
+            cal_events.setStart_Datetime(dbhelper.getDateTime(StartDate));     //Setting start date for retrival
         } catch (ParseException e) {
             e.printStackTrace();
         }
         try {
-            cal_events.setEnd_Datetime(dbhelper.getDateTime(Enddate));
+            cal_events.setEnd_Datetime(dbhelper.getDateTime(Enddate));   //Setting end date for retrival
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        //event_items = dbhelper.dummycalshed();
 
+        //Retrieving calendar evets for a week
         event_items = dbhelper.RetrieveCal_sched(cal_events);
 
         if (event_items.isEmpty()) {
-            Toast.makeText(getContext(), "No Events Created!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No Events Created!", Toast.LENGTH_SHORT).show();      //Chack if the event list is empty
 
 
         } else {
             EventsAdapter eventsadapter = new EventsAdapter(getContext(), R.layout.event_items, event_items);
-            eventsweeklist.setAdapter(eventsadapter);
-            //Toast.makeText(getContext(), "Events for the day", Toast.LENGTH_SHORT).show();
+            eventsweeklist.setAdapter(eventsadapter);      //Setting adapter for events list
             eventsweeklist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
@@ -109,7 +104,7 @@ public class Week_View_Events extends Fragment {
                     String name = ((Cal_sched) eventsweeklist.getItemAtPosition(i)).getName();
                     String datetime = dbhelper.getDateTime(((Cal_sched) eventsweeklist.getItemAtPosition(i)).getDate_time());
                     String address = ((Cal_sched) eventsweeklist.getItemAtPosition(i)).getVenue();
-
+                        // On selecting a note, call the next page where the corresponding content will be displayed.
                     Intent intent = new Intent(getActivity(), EventsView.class);
                     intent.putExtra("ID",ident);
                     intent.putExtra("Name", name);

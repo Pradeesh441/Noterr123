@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.shiv.cal.Noterr.Week_view">
+    tools:context="com.example.shiv.cal.Noterr.Week_view"
+    android:background="@color/Blue">
 
     <TextView
         android:id="@+id/section_label"
@@ -27,13 +28,15 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="280dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/Weektext"
         android:layout_marginStart="13dp"
         android:layout_marginTop="69dp"
         android:id="@+id/listweekevents"
-        android:background="@drawable/border"/>
+        android:divider="@color/Blue"
+        android:background="@color/Blue"
+        />
 
 
 </RelativeLayout>

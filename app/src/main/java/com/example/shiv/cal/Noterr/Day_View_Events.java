@@ -3,7 +3,6 @@ package com.example.shiv.cal.Noterr;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.shiv.cal.EventsAdapter;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,11 +25,9 @@ import java.util.Calendar;
 public class Day_View_Events extends Fragment {
 
     private ListView eventsdaylist;
-   // private DatabaseHelper dbhelper = new DatabaseHelper(getActivity());
-   private DatabaseHelper dbhelper;
+    private DatabaseHelper dbhelper;
     ArrayList<Cal_sched> event_items;
     Cal_shed_retrival cal_events = new Cal_shed_retrival();
-    //Cal_sched Cal_data = new Cal_sched();
     String StartDate, Enddate;
 
     @Override
@@ -61,13 +56,12 @@ public class Day_View_Events extends Fragment {
         c.set(Calendar.HOUR, HHs);
         c.set(Calendar.MINUTE, MMs);
         c.set(Calendar.SECOND, SSs);
-        StartDate = dt.format(c.getTime());       //Date for retrival
-
+        StartDate = dt.format(c.getTime());       //StartDate for retrival
 
         c.set(Calendar.HOUR, HHf);
         c.set(Calendar.MINUTE, MMf);
         c.set(Calendar.SECOND, SSf);
-        Enddate = dt.format(c.getTime());     //Date for retrival
+        Enddate = dt.format(c.getTime());     //EndDate for retrival
 
         month++;
         date.setText(Date + "/" + month + "/" + Year);
@@ -79,6 +73,7 @@ public class Day_View_Events extends Fragment {
     public void onResume() {
         super.onResume();
         eventsdaylist = (ListView) getActivity().findViewById(R.id.listdayevents);
+        //Framing start and end dates
         try {
             cal_events.setStart_Datetime(dbhelper.getDateTime(StartDate));
         } catch (ParseException e) {
@@ -90,18 +85,15 @@ public class Day_View_Events extends Fragment {
             e.printStackTrace();
         }
 
-        //event_items = dbhelper.dummycalshed();
-
         event_items = dbhelper.RetrieveCal_sched(cal_events);
 
         if (event_items.isEmpty()) {
-            Toast.makeText(getContext(), "No Events Created!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No Events Created!", Toast.LENGTH_SHORT).show();   //Checks if the event list is empty
 
 
         } else {
             EventsAdapter eventsadapter = new EventsAdapter(getContext(), R.layout.event_items, event_items);
-            eventsdaylist.setAdapter(eventsadapter);
-            // Toast.makeText(getContext(), "Events for the day", Toast.LENGTH_SHORT).show();
+            eventsdaylist.setAdapter(eventsadapter);       //Setting eventlist adapter
             eventsdaylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
@@ -110,19 +102,16 @@ public class Day_View_Events extends Fragment {
                     String datetime = dbhelper.getDateTime(((Cal_sched) eventsdaylist.getItemAtPosition(i)).getDate_time());
                     String address = ((Cal_sched) eventsdaylist.getItemAtPosition(i)).getVenue();
 
+                    //On selecting a event, call the next page where the corresponding content will be displayed.
                     Intent intent = new Intent(getActivity(), EventsView.class);
                     intent.putExtra("ID",ident);
                     intent.putExtra("Name", name);
                     intent.putExtra("Date/Time", datetime);
                     intent.putExtra("Address", address);
                     startActivity(intent);
-
-
                     return;
-
                 }
             });
-
 
             return;
         }

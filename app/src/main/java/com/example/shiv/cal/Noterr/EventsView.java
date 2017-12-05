@@ -34,7 +34,7 @@ public class EventsView extends AppCompatActivity {
         String Datetime = i.getStringExtra("Date/Time");
         String Address = i.getStringExtra("Address");
          name.setText(Name);
-         datetime.setText(Datetime);
+         datetime.setText(Datetime);       //Viewing the contents of events
          address.setText(Address);
 
          back.setOnClickListener(new View.OnClickListener() {
@@ -46,8 +46,8 @@ public class EventsView extends AppCompatActivity {
         Delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(),"hjascvksvfce",Toast.LENGTH_SHORT).show();
 
+                //Confirming before deleting the  events
                 AlertDialog.Builder dialog = new AlertDialog.Builder(EventsView.this);
                 dialog.setTitle("Delete Event");
                 dialog.setMessage("Do you really want to delete?");
@@ -58,7 +58,8 @@ public class EventsView extends AppCompatActivity {
 
                         Cal_sched cal = new Cal_sched();
                         cal.setID(id);
-                        dbhelper.deleteCal_shed(cal);
+                        dbhelper.deleteCal_shed(cal);      //Deletes event
+                        Toast.makeText(getBaseContext(),"Event Deleted.",Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });

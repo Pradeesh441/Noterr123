@@ -3,7 +3,7 @@ package com.example.shiv.cal.Noterr;
 import java.util.Date;
 
 /**
- * Created by apple on 05/11/17.
+ * Created by Vinod on 05/11/17.
  */
 
 public class Cal_sched {
@@ -12,7 +12,6 @@ public class Cal_sched {
     private Date Date_time;
 
     private String Venue;
-   // private String Loc;
     private Date Date_crtd;
 
 
@@ -52,13 +51,6 @@ public class Cal_sched {
         Venue = venue;
     }
 
-    /*public String getLoc() {
-        return Loc;
-    }
-
-    public void setLoc(String loc) {
-        Loc = loc;
-    }*/
 
     public Date getDate_crtd() {
         return Date_crtd;

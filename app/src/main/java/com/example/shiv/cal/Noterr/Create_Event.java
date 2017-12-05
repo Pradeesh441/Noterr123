@@ -34,7 +34,7 @@ public class Create_Event extends AppCompatActivity implements DatePickerDialog.
 int yy,mm,dd,HH,MM;
 int yyf,mmf,ddf,HHf,MMf;
 int SSf =00, event_id;
-    TextView Datetimeview,PlaceName, PlaceAddress;
+    TextView Datetimeview, PlaceAddress;
     Button SetDate,SetLocation,Save, Cancel;
     EditText eventName;
     DatabaseHelper dbh;
@@ -42,7 +42,7 @@ int SSf =00, event_id;
     public Date dt;
     public String notification_message;
     String datefinal;
- Date dateset,today;
+    Date dateset,today;
     Calendar c,ct,ct2;
     Long currenttime;
 
@@ -55,7 +55,6 @@ int SSf =00, event_id;
         eventName= (EditText)findViewById(R.id.editText);
         SetDate =(Button)findViewById(R.id.button2);
         Datetimeview = (TextView)findViewById(R.id.textView5);
-        //PlaceName = (TextView)findViewById(R.id.textView6);
         PlaceAddress = (TextView)findViewById(R.id.textView7);
         SetLocation =(Button)findViewById(R.id.button3);
         Save =(Button)findViewById(R.id.button4);
@@ -69,11 +68,12 @@ int SSf =00, event_id;
         dd = c.get(Calendar.DAY_OF_MONTH);
 
 
+        //On click of Date picker
         SetDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                DatePickerDialog dpd = new DatePickerDialog(Create_Event.this,Create_Event.this,yy,mm,dd);
+                DatePickerDialog dpd = new DatePickerDialog(Create_Event.this,Create_Event.this,yy,mm,dd);    //Date picker implementstion
                 dpd.show();
 
             }
@@ -87,7 +87,7 @@ int SSf =00, event_id;
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                 try {
                     Intent intent = builder.build(Create_Event.this);
-                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
+                    startActivityForResult(intent, PLACE_PICKER_REQUEST);    ///Place picker implementation
 
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
@@ -98,20 +98,23 @@ int SSf =00, event_id;
             }
         });
 
+        //To save the event
         Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 long id;
                 Cal_sched firstRecord = new Cal_sched();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                    //Input validations for empty data
                     if (eventName.getText().toString().isEmpty() ||  Datetimeview.getText().toString().isEmpty())
                     {
-                        Toast.makeText(getApplicationContext(),"Please enter requested details",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Please enter requested details",Toast.LENGTH_SHORT).show();     // checks for empty details before saving
                         return;
 
                     }
                 }
 
+                //When past date and time is selected for creating events- Messaage prompting to select date in future
                 if(dateset.before(today) )
                 {
                     Toast.makeText(getApplicationContext(),"Please select an Appropriate Date/time",Toast.LENGTH_SHORT).show();
@@ -120,7 +123,7 @@ int SSf =00, event_id;
 
                 firstRecord.setName(eventName.getText().toString());
                 try {
-                    firstRecord.setDate_time(dbh.getDateTime(datefinal));
+                    firstRecord.setDate_time(dbh.getDateTime(datefinal));     //Retrival from database
                     dt = dbh.getDateTime(datefinal);
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -131,14 +134,15 @@ int SSf =00, event_id;
                 {
                     event_id = Integer.valueOf((int) id);
                     currenttime = System.currentTimeMillis();
-                    Long time_diff = dt.getTime() - currenttime - 600000;
+                    Long time_diff = (dt.getTime() - currenttime) - 600000;
                     Integer eventTime = Integer.valueOf(String.valueOf(time_diff));
                     notification_message = eventName.getText().toString() + " at " + datefinal;
 
-                    if(event_id >= 0)
-                        scheduleEventNotification(obtainNotification(notification_message),eventTime,event_id);
-
+                    //Invoke Notification Manager to create an Event Notfication
+                    scheduleEventNotification(obtainNotification(notification_message),eventTime,event_id);
                     Toast.makeText(getApplicationContext(),"Event created!",Toast.LENGTH_SHORT).show();
+
+                    finish();
 
                 }
                 else{
@@ -148,10 +152,7 @@ int SSf =00, event_id;
 
                 Long time_diff = dt.getTime() - currenttime;
                     Integer eventTime = Integer.valueOf(String.valueOf(time_diff));
-
-                    /*if(event_id >= 0)
-                        scheduleEventNotification(obtainNotification(eventName.getText().toString()),eventTime,event_id);*/
-                    scheduleEventNotification(obtainNotification(eventName.getText().toString()),eventTime,event_id);
+                    scheduleEventNotification(obtainNotification(eventName.getText().toString()),eventTime,event_id);   // creating notification for events before 5 minutes of actual time
 
 
 
@@ -165,7 +166,6 @@ int SSf =00, event_id;
                 finish();
             }
         });
-
 
     }
 
@@ -183,7 +183,7 @@ int SSf =00, event_id;
 
         TimePickerDialog tpd = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
-            tpd = new TimePickerDialog(Create_Event.this,Create_Event.this,HH,MM, DateFormat.is24HourFormat(this));
+            tpd = new TimePickerDialog(Create_Event.this,Create_Event.this,HH,MM, DateFormat.is24HourFormat(this));   //time picker implementation
         }
         tpd.show();
 
@@ -203,8 +203,8 @@ int SSf =00, event_id;
         if(dateset.before(today) )
         {
             Toast.makeText(getApplicationContext(),"The time has already passed.",Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(),"Please create an event for future!",Toast.LENGTH_SHORT).show();
-            //return;
+            Toast.makeText(getApplicationContext(),"Please create an event for future!",Toast.LENGTH_SHORT).show();   //Checks if the date selected for create events
+                                                                                                                            //is passed or valid for event creation
         }
 
         mmf++;
@@ -219,13 +219,15 @@ int SSf =00, event_id;
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode  == PLACE_PICKER_REQUEST){
             if(resultCode ==RESULT_OK){
-                Place place  = PlacePicker.getPlace(Create_Event.this, data);
-                //PlaceName.setText(place.getName());
+                Place place  = PlacePicker.getPlace(Create_Event.this, data);    //Fetching data from api for place picker
                 PlaceAddress.setText((CharSequence) place.getAddress());
 
             }
         }
     }
+
+    //Create a Notification
+
     public void scheduleEventNotification(Notification notification,int delay,int event_id)
     {
         Intent notification_intent = new Intent(this,EventschedulePublisher.class);
@@ -241,10 +243,9 @@ int SSf =00, event_id;
     {
         Notification.Builder builder = new Notification.Builder(this);
 
-        builder.setContentTitle("Noterr Notification!");
         builder.setContentTitle("Noterr Upcoming Event Notification!");
         builder.setContentText(content);
-        builder.setSmallIcon(R.drawable.cast_ic_notification_small_icon);
+        builder.setSmallIcon(R.drawable.cast_ic_notification_small_icon);        //Building up notification content
         builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
         return builder.build();
     }

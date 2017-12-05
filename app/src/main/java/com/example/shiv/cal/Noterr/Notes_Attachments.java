@@ -3,7 +3,6 @@ package com.example.shiv.cal.Noterr;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.StrictMode;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
@@ -38,8 +37,6 @@ public class Notes_Attachments extends AppCompatActivity {
         attachmentlist.setEmptyView(editText);
         dbh = new DatabaseHelper(this);
 
-       // opens in pdf mode - https://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed
-
         Intent notesattach = getIntent();
         long notes_id = notesattach.getLongExtra("ID",0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -52,7 +49,7 @@ public class Notes_Attachments extends AppCompatActivity {
         ArrayList<Notes_content> notes_items = dbh.RetrieveNotes_content(notes_content);
         final ArrayList<Notes_content> mediafilter = new ArrayList<Notes_content>();
 
-        //Filetring the contents from the database for oly media contents
+        //Filtering the contents from the database for oly media contents
         for (int i = 0;i<notes_items.size();i++)
         {
             if(!notes_items.get(i).getCont_type().equalsIgnoreCase("Text"))
@@ -62,8 +59,6 @@ public class Notes_Attachments extends AppCompatActivity {
             }
 
         }
-
-        //******************Check and delete*************
 
         if( mediafilter == null)
         {
@@ -91,7 +86,7 @@ public class Notes_Attachments extends AppCompatActivity {
 
                 }
             });
-            //attempting to delete on long press of an itemm would require a confirmation
+            //attempting to delete on long press of an item would require a confirmation
             attachmentlist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -137,11 +132,6 @@ public class Notes_Attachments extends AppCompatActivity {
 
                 }
             });
-
-
-
-
-
 
         }
     }
