@@ -47,7 +47,7 @@ public class Month_View_Events extends Fragment {
             m++;
         TextView month =(TextView) rootView.findViewById(R.id.Monthtext);
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        int DDs=1,DDf=30, HHs=0,MMs=0,SSs=0,HHf=23,MMf=59,SSf=59;
+        int DDs=1,DDf=30, HHs=12,MMs=0,SSs=0,HHf=23,MMf=59,SSf=59;
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DATE,DDs);
         c.set(Calendar.MONTH,Integer.parseInt(Month));
@@ -55,6 +55,7 @@ public class Month_View_Events extends Fragment {
         c.set(Calendar.HOUR,HHs);
         c.set(Calendar.MINUTE,MMs);
         c.set(Calendar.SECOND,SSs);
+        c.add(Calendar.DATE, -1);
         StartDate =dt.format(c.getTime());    //Start Date for retrival
 
         c.set(Calendar.DATE,DDf);

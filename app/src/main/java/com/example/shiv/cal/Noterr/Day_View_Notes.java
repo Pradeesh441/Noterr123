@@ -45,7 +45,7 @@ public class Day_View_Notes extends Fragment {
         String Year = (String) bundle.get("Year");
         TextView date =(TextView) rootView.findViewById(R.id.Datetext);
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        int HHs=0,MMs=0,SSs=0,HHf=23,MMf=59,SSf=59;
+        int HHs=12,MMs=0,SSs=0,HHf=23,MMf=59,SSf=59;
         int month =Integer.parseInt(Month);
 
         Calendar c = Calendar.getInstance();
@@ -55,6 +55,7 @@ public class Day_View_Notes extends Fragment {
         c.set(Calendar.HOUR,HHs);
         c.set(Calendar.MINUTE,MMs);
         c.set(Calendar.SECOND,SSs);
+        c.add(Calendar.DATE, -1);
         StartDate =dt.format(c.getTime());       //StartDate for retrival
 
 

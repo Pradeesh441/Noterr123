@@ -42,7 +42,7 @@ public class Week_View_Notes extends Fragment {
         String Date= (String) bundle.get("Date");
         String Month = (String) bundle.get("Month");
         String Year = (String) bundle.get("Year");
-        int HHs=0,MMs=0,SSs=0,HHf=23,MMf=59,SSf=59;
+        int HHs=12,MMs=0,SSs=0,HHf=23,MMf=59,SSf=59;
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -55,6 +55,7 @@ public class Week_View_Notes extends Fragment {
         c.set(Calendar.MINUTE,MMs);
         c.set(Calendar.SECOND,SSs);
         c.add(Calendar.DATE,-4);
+        c.add(Calendar.DATE, -1);
         datetext.append(sdf.format(c.getTime()));
         StartDate =dt.format(c.getTime());  //  Start Date for retrival
         c.add(Calendar.DATE,7);
